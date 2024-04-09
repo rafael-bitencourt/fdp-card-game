@@ -14,9 +14,9 @@ def quantas_faz(pontos):
         elif pontos == 3:
             label_disse_3.place(x=845, y=649)
 
-        carta_1.place(x=360, y=644)
-        carta_2.place(x=491, y=644)
-        carta_3.place(x=621, y=644)
+        carta_1["state"] = "normal"
+        carta_2["state"] = "normal"
+        carta_3["state"] = "normal"
 
 def jogar_carta(carta):
     
@@ -41,7 +41,7 @@ janela = Tk()
 janela.geometry("1012x759")
 janela.resizable(False, False)
 janela.title("Interface Filho da Puta")
-#janela.iconbitmap("interface/assets/icone.ico")
+janela.iconbitmap("assets/icone.ico")
 
 #Configurando a imagem de fundo
 mesa = PhotoImage(file="assets/mesa-interface.png")
@@ -69,9 +69,13 @@ imagem_carta_1 = ImageTk.PhotoImage(Image.open("assets/carta-1.png"))
 imagem_carta_2 = ImageTk.PhotoImage(Image.open("assets/carta-2.png"))
 imagem_carta_3 = ImageTk.PhotoImage(Image.open("assets/carta-3.png"))
 
-carta_1 = Button(janela, command=lambda: jogar_carta(1), width=73, height=102, image=imagem_carta_1, bd=3)
-carta_2 = Button(janela, command=lambda: jogar_carta(2), width=73, height=102, image=imagem_carta_2, bd=3)
-carta_3 = Button(janela, command=lambda: jogar_carta(3), width=73, height=102, image=imagem_carta_3, bd=3)
+carta_1 = Button(janela, command=lambda: jogar_carta(1), width=73, height=102, image=imagem_carta_1, bd=3, state="disabled")
+carta_2 = Button(janela, command=lambda: jogar_carta(2), width=73, height=102, image=imagem_carta_2, bd=3, state="disabled")
+carta_3 = Button(janela, command=lambda: jogar_carta(3), width=73, height=102, image=imagem_carta_3, bd=3, state="disabled")
+
+carta_1.place(x=360, y=644)
+carta_2.place(x=491, y=644)
+carta_3.place(x=621, y=644)
 
 #Configurando outros assets
 quadrado_verde = ImageTk.PhotoImage(Image.open("assets/quadrado-verde.png"))
