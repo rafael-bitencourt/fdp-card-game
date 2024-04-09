@@ -5,7 +5,7 @@ def quantas_faz(pontos):
     
     if pontos != 1:
 
-        label_quadrado_verde.place(x=310, y=450)
+        label_quadrado_verde.place(x=315, y=450)
 
         if pontos == 0:
             label_disse_0.place(x=845, y=649)
