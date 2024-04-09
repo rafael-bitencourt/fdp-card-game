@@ -41,7 +41,6 @@ janela = Tk()
 janela.geometry("1012x759")
 janela.resizable(False, False)
 janela.title("Interface Filho da Puta")
-janela.iconbitmap("assets/icone.ico")
 
 #Configurando a imagem de fundo
 mesa = PhotoImage(file="assets/mesa-interface.png")
