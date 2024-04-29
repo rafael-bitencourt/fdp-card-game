@@ -1,4 +1,4 @@
-from model.carta import Carta
+from src.carta import Carta
 
 class Baralho:
     def __init__(self):
