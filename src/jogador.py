@@ -1,16 +1,21 @@
+from dog.dog_actor import DogActor
+from dog.dog_interface import DogPlayerInterface
 
-class Jogador:
-    def __init__(self, index):
-        self.__index = index
+class Jogador(DogPlayerInterface):
+    def __init__(self, nome):
+        self.__nome = nome
         self.__cartas_jogador = []
         self.__vez_de_jogar = False
         self.__quantas_disse = 0
         self.__quantas_fez = 0
         self.__pontos = 0
         self.__carta_jogada = None
+        self.dog_server_interface = DogActor()
+        mensagem = self.dog_server_interface.initialize(self.__nome, self)
+        print(mensagem)
     
-    def get_index(self):
-        return self.__index
+    def get_nome(self):
+        return self.__nome
     
     def get_cartas_jogador(self):
         return self.__cartas_jogador
@@ -48,3 +53,6 @@ class Jogador:
     def set_carta_jogada(self, carta):
         self.__carta_jogada = carta
     
+    def jogar_carta(self, carta):
+        self.__cartas_jogador.remove(carta)
+        self.__carta_jogada = carta
