@@ -8,8 +8,8 @@ class Baralho:
 
     def criar_baralho(self):
         naipes = ["copas", "espadas", "ouros", "paus"]
-        valores = ["2", "3", "4", "5", "6", "7", "8", "9", "10", "J", "Q", "K", "A"]
-        
+        valores = [2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14]
+
         for naipe in naipes:
             for valor in valores:
                 self.cartas.append(Carta(valor, naipe))
