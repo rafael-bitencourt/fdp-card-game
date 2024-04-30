@@ -53,4 +53,6 @@ class Jogador(DogPlayerInterface):
     def set_carta_jogada(self, carta):
         self.__carta_jogada = carta
     
-Jogador = Jogador("Jogador 1")
+    def jogar_carta(self, carta):
+        self.__cartas_jogador.remove(carta)
+        self.__carta_jogada = carta
