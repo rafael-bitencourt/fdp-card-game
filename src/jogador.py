@@ -66,4 +66,9 @@ class Jogador(DogPlayerInterface):
                 break
         self.set_carta_jogada(carta)
         self.__cartas_jogador.remove(carta)
+
+jogador1 = Jogador('Jogador 1')
+jogador2 = Jogador('Jogador 2')
+jogador3 = Jogador('Jogador 3')
+jogador4 = Jogador('Jogador 4')
         
