@@ -5,6 +5,13 @@ class Carta:
     
     def __str__(self):
         return f"{self.valor} de {self.naipe}"
+    
+    def get_valor(self):
+        return self.valor
+
+    def get_naipe(self):
+        return self.naipe
+
 
     
 
