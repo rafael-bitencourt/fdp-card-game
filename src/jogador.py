@@ -53,6 +53,17 @@ class Jogador(DogPlayerInterface):
     def set_carta_jogada(self, carta):
         self.__carta_jogada = carta
     
-    def jogar_carta(self, carta):
+    def jogar_carta(self):
+        cartas_na_mao = self.get_cartas_jogador()
+        #for carta in cartas_na_mao:
+            #print('Suas cartas são: ', carta, end=' ')
+
+        print(f'{self.__nome} Suas cartas são: ', [str(carta) for carta in cartas_na_mao])
+        carta = input(f'{self.__nome}, digite o número da carta que deseja jogar: ')
+        for carta_jogador in self.__cartas_jogador:
+            if carta_jogador.get_numero() == int(carta):
+                carta = carta_jogador
+                break
+        self.set_carta_jogada(carta)
         self.__cartas_jogador.remove(carta)
-        self.__carta_jogada = carta
+        
