@@ -10,9 +10,6 @@ class Jogador(DogPlayerInterface):
         self.__quantas_fez = 0
         self.__pontos = 0
         self.__carta_jogada = None
-        self.dog_server_interface = DogActor()
-        mensagem = self.dog_server_interface.initialize(self.__nome, self)
-        print(mensagem)
     
     def get_nome(self):
         return self.__nome
@@ -66,9 +63,3 @@ class Jogador(DogPlayerInterface):
                 break
         self.set_carta_jogada(carta)
         self.__cartas_jogador.remove(carta)
-
-jogador1 = Jogador('Jogador 1')
-jogador2 = Jogador('Jogador 2')
-jogador3 = Jogador('Jogador 3')
-jogador4 = Jogador('Jogador 4')
-        
