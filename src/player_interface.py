@@ -7,7 +7,12 @@ from dog.dog_actor import DogActor
 from jogador import Jogador
 
 class PlayerInterface(DogPlayerInterface):
-    def __init__(self, jogador):
+    def __init__(self):
+        #Iniciando DogActor
+        self.__nome = input("Digite o nome do jogador: ")
+        self.dog_server_interface = DogActor()
+        mensagem = self.dog_server_interface.initialize(self.__nome, self)
+        print(mensagem)
 
         #Crianddo a janela principal
         self.__janela = Tk()
@@ -16,7 +21,6 @@ class PlayerInterface(DogPlayerInterface):
         self.__janela.title("Interface Filho da Puta")
         self.__icone = PhotoImage(file='assets/icone.png')
         self.__janela.iconphoto(True, self.__icone)
-
 
         #Configurando a imagem de fundo
         self.__mesa = PhotoImage(file="assets/mesa-interface.png")
@@ -39,13 +43,8 @@ class PlayerInterface(DogPlayerInterface):
         #Loop principal
         self.__janela.mainloop()
 
-        #Interface com DogActor
-        self.__jogador = jogador
-        self.dog_server_interface = DogActor()
-        mensagem = self.dog_server_interface.initialize(self.__jogador.get_nome(), self)
-        print(mensagem)
-
     def jogar_carta(self, carta):
+        self.start_match()
         if carta == 1:
             self.__carta_1.place(x=621, y=450)
             self.__carta_2["state"] = "disabled"
@@ -58,6 +57,11 @@ class PlayerInterface(DogPlayerInterface):
             self.__carta_3.place(x=621, y=450)
             self.__carta_1["state"] = "disabled"
             self.__carta_2["state"] = "disabled"
+
+    def start_match(self):
+        start_status = self.dog_server_interface.start_match(2)
+        message = start_status.get_message()
+        print(message)
 
     def receive_start(self, start_status):
         print(f"O jogo começou.")
