@@ -50,6 +50,9 @@ class PlayerInterface(DogPlayerInterface):
             self.dog_server_interface = DogActor()
             mensagem = self.dog_server_interface.initialize(self.__nome, self)
             messagebox.showinfo("Mensagem", mensagem)
+            if mensagem == "Conectado a Dog Server":
+                self.start_button["state"] = "disabled"
+                self.start_button["text"] = "Aguardando oponente"
     
 
 
