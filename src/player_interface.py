@@ -119,6 +119,3 @@ class PlayerInterface(DogPlayerInterface):
 
     def receive_withdrawal_notification(self):
         print("O jogador desistiu do jogo")
-    
-
-playerInterface = PlayerInterface()
