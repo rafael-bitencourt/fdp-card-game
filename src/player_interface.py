@@ -17,29 +17,29 @@ class PlayerInterface(DogPlayerInterface):
         self.__icone = PhotoImage(file='assets/icone.png')
         self.__janela.iconphoto(True, self.__icone)
 
-        self.__mesa = PhotoImage(file="assets/fundo.png")
+        self.__mesa = PhotoImage(file="assets/mesa.png")
         self.__label_mesa = Label(self.__janela, image=self.__mesa)
         self.__label_mesa.place(x=0, y=0, relwidth=1, relheight=1)
 
         # Criação texto pedindo nome
         self.__texto = Label(self.__janela, text="Digite seu nome:", font=('Helvetica', 15), bg='white', fg='black')
         self.__texto.pack(pady=20)
-        self.__texto.place(x=425, y=250)
-
-        # Criando e configurando o botão conectar ao servidor
-        self.start_button = Button(self.__janela, text="Conectar ao servidor", command=self.conectar_servidor)
-        self.start_button.pack(pady=20, ipadx=10, ipady=5)
-        self.start_button.place(x=420, y=350)
-
-        # Criando e configurando o botão iniciar partida
-        self.start_match_button = Button(self.__janela, text="Iniciar partida", command=self.start_match)
-        self.start_match_button.pack(pady=20, ipadx=10, ipady=5)
-        self.start_match_button.place(x=440, y=400)
+        self.__texto.place(x=430, y=225)
 
         # Criação do Entry
         self.entry = Entry(self.__janela, font=('Helvetica', 12), width=20)
         self.entry.pack(pady=20)
-        self.entry.place(x=410, y=300)
+        self.entry.place(x=415, y=275)
+
+        # Criando e configurando o botão conectar ao servidor
+        self.start_button = Button(self.__janela, text="Conectar ao servidor", command=self.conectar_servidor)
+        self.start_button.pack(pady=20, ipadx=10, ipady=5)
+        self.start_button.place(x=445, y=455)
+
+        # Criando e configurando o botão iniciar partida
+        self.start_match_button = Button(self.__janela, text="Iniciar partida", command=self.start_match)
+        self.start_match_button.pack(pady=20, ipadx=10, ipady=5)
+        self.start_match_button.place(x=465, y=505)
 
         #Loop principal
         self.__janela.mainloop()
@@ -55,7 +55,6 @@ class PlayerInterface(DogPlayerInterface):
                 self.start_button["text"] = "Aguardando oponente"
     
 
-
     def imprime_elementos_mesa(self):
         #Configurando a imagem de fundo
         self.__mesa = PhotoImage(file="assets/mesa-interface.png")
@@ -68,13 +67,13 @@ class PlayerInterface(DogPlayerInterface):
         # self.start_match_button.place(x=450, y=450)
 
         #Configurando jogar_carta
-        self.__imagem_carta_1 = ImageTk.PhotoImage(Image.open("assets/carta-1.png"))
-        self.__imagem_carta_2 = ImageTk.PhotoImage(Image.open("assets/carta-2.png"))
-        self.__imagem_carta_3 = ImageTk.PhotoImage(Image.open("assets/carta-3.png"))
+        self.__imagem_carta_1 = ImageTk.PhotoImage(Image.open("assets/cartas/A espadas.png"))
+        self.__imagem_carta_2 = ImageTk.PhotoImage(Image.open("assets/cartas/Q copas.png"))
+        self.__imagem_carta_3 = ImageTk.PhotoImage(Image.open("assets/cartas/6 paus.png"))
 
-        self.__carta_1 = Button(self.__janela, command=lambda: self.jogar_carta(1), width=73, height=102, image=self.__imagem_carta_1, bd=3)
-        self.__carta_2 = Button(self.__janela, command=lambda: self.jogar_carta(2), width=73, height=102, image=self.__imagem_carta_2, bd=3)
-        self.__carta_3 = Button(self.__janela, command=lambda: self.jogar_carta(3), width=73, height=102, image=self.__imagem_carta_3, bd=3)
+        self.__carta_1 = Button(self.__janela, command=lambda: self.jogar_carta(1), width=70, height=100, image=self.__imagem_carta_1, bd=3)
+        self.__carta_2 = Button(self.__janela, command=lambda: self.jogar_carta(2), width=70, height=100, image=self.__imagem_carta_2, bd=3)
+        self.__carta_3 = Button(self.__janela, command=lambda: self.jogar_carta(3), width=70, height=100, image=self.__imagem_carta_3, bd=3)
         
         self.__carta_1.place(x=360, y=644)
         self.__carta_2.place(x=491, y=644)
@@ -97,7 +96,7 @@ class PlayerInterface(DogPlayerInterface):
 
 
     def start_match(self):
-        start_status = self.dog_server_interface.start_match(2)
+        start_status = self.dog_server_interface.start_match(1)
         message = start_status.get_message()
         messagebox.showinfo("Mensagem", message)
         if message == "Partida iniciada":
