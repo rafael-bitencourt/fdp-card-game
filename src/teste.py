@@ -6,10 +6,10 @@ root = tk.Tk()
 
 
 imagens_cartas = {}  # Dicionário para armazenar as PhotoImages
-lista_cartas = [Carta("2", "copas"), Carta("6", "copas"), Carta("3", "espadas")]  # Lista de cartas
+lista_cartas = [Carta("A", "ouros"), Carta("K", "paus"), Carta("3", "espadas")]  # Lista de cartas
 
 for carta in lista_cartas:
-    path = f"assets/{carta.get_valor()} {carta.get_naipe()}.png"
+    path = f"assets/cartas/{carta.get_valor()} {carta.get_naipe()}.png"
     imagens_cartas[carta] = PhotoImage(file=path)
 
 def acao_carta(carta):
