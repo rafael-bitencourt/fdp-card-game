@@ -1,13 +1,17 @@
 class Carta:
+    # O padrão para descrever cartas é "valor naipe"
     forca_cartas = {
-        "A de espadas": 14, "A de paus": 13, "7 de espadas": 12, "7 de ouros": 11,
-        "A de copas": 10, "A de ouros": 10, "K de espadas": 9, "K de copas": 9,
-        "K de ouros": 9, "K de paus": 9, "Q de espadas": 8, "Q de copas": 8,
-        "Q de ouros": 8, "Q de paus": 8, "J de espadas": 7, "J de copas": 7,
-        "J de ouros": 7, "J de paus": 7, "7 de copas": 6, "7 de paus": 6,
-        "6 de espadas": 5, "6 de copas": 5, "6 de ouros": 5, "6 de paus": 5,
-        "5 de espadas": 4, "5 de copas": 4, "5 de ouros": 4, "5 de paus": 4,
-        "4 de espadas": 3, "4 de copas": 3, "4 de ouros": 3, "4 de paus": 3,
+        "A espadas": 14, "A paus": 13, "7 espadas": 12, "7 ouros": 11,
+        "3 copas": 10, "3 espadas": 10, "3 ouros": 10, "3 paus": 10,
+        "2 copas": 9, "2 espadas": 9, "2 ouros": 9, "2 paus": 9,
+        "A copas": 8, "A ouros": 8,
+        "K espadas": 7, "K ouros": 7, "K copas": 7, "K paus": 7,
+        "Q espadas": 6, "Q ouros": 6, "Q copas": 6, "Q paus": 6,
+        "J espadas": 5, "J ouros": 5, "J copas": 5, "J paus": 5,
+        "7 copas": 4, "7 paus": 4,
+        "6 espadas": 3, "6 ouros": 3, "6 copas": 3, "6 paus": 3,
+        "5 espadas": 2, "5 ouros": 2, "5 copas": 2, "5 paus": 2,
+        "4 espadas": 1, "4 ouros": 1, "4 copas": 1, "4 paus": 1
     }
 
     def __init__(self, valor, naipe):
