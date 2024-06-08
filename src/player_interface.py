@@ -9,7 +9,6 @@ from jogador import Jogador
 
 class PlayerInterface(DogPlayerInterface):
     def __init__(self):
-        # Criando menu de inicio
         self.__janela = Tk()
         self.__janela.geometry("1012x759")
         self.__janela.resizable(False, False)
@@ -44,7 +43,7 @@ class PlayerInterface(DogPlayerInterface):
         #Loop principal
         self.__janela.mainloop()
 
-    
+
     def conectar_servidor(self):
             self.__nome = self.entry.get()
             self.dog_server_interface = DogActor()
@@ -53,7 +52,36 @@ class PlayerInterface(DogPlayerInterface):
             if mensagem == "Conectado a Dog Server":
                 self.start_button["state"] = "disabled"
                 self.start_button["text"] = "Aguardando oponente"
-    
+
+
+    def start_match(self):
+        start_status = self.dog_server_interface.start_match(3)
+        players = start_status.get_players()
+        print(players)
+
+        message = start_status.get_message()
+        messagebox.showinfo("Mensagem", message)
+        if message == "Partida iniciada":
+            self.start_match_button.destroy()
+   
+
+    def receive_start(self, start_status):
+        message = start_status.get_message()
+        messagebox.showinfo(message=message)
+        if message == "Partida iniciada":
+            self.imprime_elementos_mesa()
+            self.start_match_button.destroy()
+            players = start_status.get_players()
+            print(players)
+
+        
+    def receive_move(self, a_move):
+        print(f"O jogador jogou.")
+
+
+    def receive_withdrawal_notification(self):
+        print("O jogador desistiu do jogo")
+        
 
     def imprime_elementos_mesa(self):
         #Configurando a imagem de fundo
@@ -61,26 +89,21 @@ class PlayerInterface(DogPlayerInterface):
         self.__label_mesa = Label(self.__janela, image=self.__mesa)
         self.__label_mesa.place(x=0, y=0, relwidth=1, relheight=1)
 
-        # Criando e configurando o botão iniciar partida
-        # self.start_match_button = Button(self.__janela, text="Iniciar partida", command=self.start_match)
-        # self.start_match_button.pack(pady=20, ipadx=10, ipady=5)
-        # self.start_match_button.place(x=450, y=450)
-
         #Configurando jogar_carta
-        self.__imagem_carta_1 = ImageTk.PhotoImage(Image.open("assets/cartas/A espadas.png"))
+        self.__imagem_carta_1 = ImageTk.PhotoImage(Image.open("assets/cartas/K paus.png"))
         self.__imagem_carta_2 = ImageTk.PhotoImage(Image.open("assets/cartas/Q copas.png"))
         self.__imagem_carta_3 = ImageTk.PhotoImage(Image.open("assets/cartas/6 paus.png"))
 
-        self.__carta_1 = Button(self.__janela, command=lambda: self.jogar_carta(1), width=70, height=100, image=self.__imagem_carta_1, bd=3)
-        self.__carta_2 = Button(self.__janela, command=lambda: self.jogar_carta(2), width=70, height=100, image=self.__imagem_carta_2, bd=3)
-        self.__carta_3 = Button(self.__janela, command=lambda: self.jogar_carta(3), width=70, height=100, image=self.__imagem_carta_3, bd=3)
+        self.__carta_1 = Button(self.__janela, command=lambda: self.imprimir_carta(1), width=70, height=100, image=self.__imagem_carta_1, bd=3)
+        self.__carta_2 = Button(self.__janela, command=lambda: self.imprimir_carta(2), width=70, height=100, image=self.__imagem_carta_2, bd=3)
+        self.__carta_3 = Button(self.__janela, command=lambda: self.imprimir_carta(3), width=70, height=100, image=self.__imagem_carta_3, bd=3)
         
         self.__carta_1.place(x=360, y=644)
         self.__carta_2.place(x=491, y=644)
         self.__carta_3.place(x=621, y=644)
 
 
-    def jogar_carta(self, carta):
+    def imprimir_carta(self, carta):
         if carta == 1:
             self.__carta_1.place(x=621, y=450)
             self.__carta_2["state"] = "disabled"
@@ -93,28 +116,3 @@ class PlayerInterface(DogPlayerInterface):
             self.__carta_3.place(x=621, y=450)
             self.__carta_1["state"] = "disabled"
             self.__carta_2["state"] = "disabled"
-
-
-    def start_match(self):
-        start_status = self.dog_server_interface.start_match(1)
-        message = start_status.get_message()
-        messagebox.showinfo("Mensagem", message)
-        if message == "Partida iniciada":
-            self.imprime_elementos_mesa()
-            self.start_match_button.destroy()
-   
-
-    def receive_start(self, start_status):
-        message = start_status.get_message()
-        messagebox.showinfo(message=message)
-        if message == "Partida iniciada":
-            self.imprime_elementos_mesa()
-            self.start_match_button.destroy()
-
-        
-    def receive_move(self, a_move):
-        print(f"O jogador jogou.")
-
-
-    def receive_withdrawal_notification(self):
-        print("O jogador desistiu do jogo")
