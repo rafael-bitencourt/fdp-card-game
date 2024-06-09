@@ -19,5 +19,12 @@ class Jogo:
                 menor = jogadores[i].get_total_pontos()
                 jogador_menos_pontos = jogadores[i]   
         return jogador_menos_pontos
+    
+    def atribuir_pontos(self):
+        jogadores = self.get_jogadores()
+        for i in range(len(jogadores)):
+            diferenca = abs(jogadores[i].get_quantas_disse() - jogadores[i].get_quantas_fez())
+            jogadores[i].incrementar_total_pontos(diferenca)
+
         
         
