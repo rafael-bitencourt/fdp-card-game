@@ -8,7 +8,7 @@ class Mesa:
     def computar_vencedor_mesa(self):
         vencedor = None
         for jogador in self.__jogadores_na_mesa:
-            if jogador.carta_jogada.get_forca() >= vencedor.carta_jogada.get_forca() or vencedor == None:
+            if jogador.get_carta_jogada().get_forca() >= vencedor.get_carta_jogada().get_forca() or vencedor == None:
                 vencedor = jogador
         return vencedor
 
@@ -17,5 +17,4 @@ class Mesa:
 
     def get_jogadores_na_mesa(self):
         return self.__jogadores_na_mesa
-    
     

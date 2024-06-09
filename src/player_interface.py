@@ -6,9 +6,23 @@ from dog.dog_interface import DogPlayerInterface
 from dog.dog_actor import DogActor
 
 from jogador import Jogador
+from jogo import Jogo
+from posicao import *
 
 class PlayerInterface(DogPlayerInterface):
     def __init__(self):
+        self.__nome = None
+        self.__indice_local = None
+        self.__turno = FALSE
+        self.__inicio_rodada = TRUE
+        self.__posicoes = []
+        self.__jogo = None
+        self.__jogadores = []
+        self.__posicoes = [PosicaoBaixo, PosicaoDireita, PosicaoCima, PosicaoEsquerda]
+        self.inicializar()
+
+
+    def inicializar(self):
         self.__janela = Tk()
         self.__janela.geometry("1012x759")
         self.__janela.resizable(False, False)
@@ -43,7 +57,6 @@ class PlayerInterface(DogPlayerInterface):
         #Loop principal
         self.__janela.mainloop()
 
-
     def conectar_servidor(self):
             self.__nome = self.entry.get()
             self.dog_server_interface = DogActor()
@@ -55,13 +68,36 @@ class PlayerInterface(DogPlayerInterface):
 
 
     def start_match(self):
-        start_status = self.dog_server_interface.start_match(3)
+        start_status = self.dog_server_interface.start_match(1)
         players = start_status.get_players()
-        print(players)
+
+        for player in players:
+            self.__jogadores.append(Jogador(player[0], int(player[2])))
+            if player[0] == self.__nome:
+                self.__indice_local = players.index(player)
+
+        self.__jogo = Jogo(self.__jogadores, self.__indice_local)
+
+        if players[self.__indice_local] == 1:
+            self.__turno = TRUE
+
+        for jogador in self.__jogadores:
+            if jogador.get_indice() == self.__indice_local:
+                posicao_baixo = PosicaoBaixo(jogador)
+            elif jogador.get_indice() == (self.__indice_local + 1) % 4:
+                posicao_direita = PosicaoDireita(jogador)
+            elif jogador.get_indice() == (self.__indice_local + 2) % 4:
+                posicao_cima = PosicaoCima(jogador)
+            elif jogador.get_indice() == (self.__indice_local + 3) % 4:
+                posicao_esquerda = PosicaoEsquerda(jogador)
+
+        
+        
+            
 
         message = start_status.get_message()
         messagebox.showinfo("Mensagem", message)
-        if message == "Partida iniciada":
+        if start_status.code == '2':
             self.start_match_button.destroy()
    
 
