@@ -17,31 +17,35 @@ class Posicao:
 class PosicaoBaixo(Posicao):
     def __init__(self, jogador, janela):
         super().__init__(jogador, janela)
-        self._frame = Frame(self._janela, bg="red", width=200, height=200)
+        self.cor = "red"
 
     def atualizar_frame(self):
+        self._frame = Frame(self._janela, bg=self.cor, width=200, height=200)
         self._frame.place(x=400, y=400)
 
 class PosicaoDireita(Posicao):
     def __init__(self, jogador, janela):
         super().__init__(jogador, janela)
-        self._frame = Frame(self._janela, bg="blue", width=200, height=200)
+        self.cor = "blue"
 
     def atualizar_frame(self):
+        self._frame = Frame(self._janela, bg=self.cor, width=200, height=200)
         self._frame.place(x=600, y=200)
     
 class PosicaoCima(Posicao):
     def __init__(self, jogador, janela):
         super().__init__(jogador, janela)
-        self._frame = Frame(self._janela, bg="green", width=200, height=200)
+        self.core = "green"
 
     def atualizar_frame(self):
+        self._frame = Frame(self._janela, bg=self.cor, width=200, height=200)
         self._frame.place(x=400, y=0)
 
 class PosicaoEsquerda(Posicao):
     def __init__(self, jogador, janela):
         super().__init__(jogador, janela)
-        self._frame = Frame(self._janela, bg="yellow", width=200, height=200)
+        self.cor = "yellow"
 
     def atualizar_frame(self):
+        self._frame = Frame(self._janela, bg=self.cor, width=200, height=200)
         self._frame.place(x=200, y=200)

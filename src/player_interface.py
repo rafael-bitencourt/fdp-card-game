@@ -1,6 +1,7 @@
 from tkinter import *
 from PIL import Image, ImageTk
 from tkinter import messagebox
+import time
 
 from dog.dog_interface import DogPlayerInterface
 from dog.dog_actor import DogActor
@@ -69,7 +70,7 @@ class PlayerInterface(DogPlayerInterface):
 
 
     def start_match(self):
-        start_status = self.__dog_server_interface.start_match(1)
+        start_status = self.__dog_server_interface.start_match(2)
         mensagem = start_status.get_message()
         messagebox.showinfo("Mensagem", mensagem)
         if start_status.code == '2':
@@ -92,25 +93,29 @@ class PlayerInterface(DogPlayerInterface):
 
         self.__jogo = Jogo(self.__jogadores, self.__jogador_local)
 
-        #for jogador in self.__jogadores:
-        #    if jogador.get_indice() == self.__jogador_local.get_indice():
-        #        self.__posicoes.append(PosicaoBaixo(jogador))
-        #    elif jogador.get_indice() == (self.__jogador_local.get_indice() + 1) % 4:
-        #        self.__posicoes.append(PosicaoDireita(jogador))
-        #    elif jogador.get_indice() == (self.__jogador_local.get_indice() + 2) % 4:
-        #        self.__posicoes.append(PosicaoCima(jogador))
-        #    elif jogador.get_indice() == (self.__jogador_local.get_indice() + 3) % 4:
-        #        self.__posicoes.append(PosicaoEsquerda(jogador))
+        for jogador in self.__jogadores:
+            if jogador.get_indice() == self.__jogador_local.get_indice():
+                self.__posicoes.append(PosicaoBaixo(jogador, self.__janela))
+            elif jogador.get_indice() == (self.__jogador_local.get_indice() + 1) % 4:
+                self.__posicoes.append(PosicaoDireita(jogador, self.__janela))
+            elif jogador.get_indice() == (self.__jogador_local.get_indice() + 2) % 4:
+                self.__posicoes.append(PosicaoCima(jogador, self.__janela))
+            elif jogador.get_indice() == (self.__jogador_local.get_indice() + 3) % 4:
+                self.__posicoes.append(PosicaoEsquerda(jogador, self.__janela))
 
-        self.imprime_elementos_mesa()
+        self.botao = Button(self.__janela, text="atualizar", command=self.atualizar_interface)
+        self.botao.place(x=0, y=0)
 
+        self.atualizar_interface()
+        for posicao in self.__posicoes:
+            posicao.cor = "white"
 
     def receive_start(self, start_status):
         message = start_status.get_message()
         messagebox.showinfo(message=message)
         if message == "Partida iniciada":
             self.imprime_elementos_mesa()
-            self.start_match_button.destroy()
+            self.__botao_iniciar.destroy()
             players = start_status.get_players()
             print(players)
 
