@@ -1,11 +1,8 @@
-from dog.dog_actor import DogActor
-from dog.dog_interface import DogPlayerInterface
-
 class Jogador():
     def __init__(self, player):
         self.__nome = player[0]
         self.__indice = int(player[2])
-        self.__cartas_jogador = []
+        self.__cartas_jogador = None
         self.__turno = False
         self.__quantas_disse = 0
         self.__quantas_fez = 0
@@ -45,6 +42,9 @@ class Jogador():
     def set_quantas_fez(self, quantas_fez):
         self.__quantas_fez = quantas_fez
     
+    def set_cartas_jogador(self, cartas):
+        self.__cartas_jogador = cartas
+
     def incrementar_total_pontos(self, pontos):
         self.__total_pontos = self.__total_pontos + pontos
     
