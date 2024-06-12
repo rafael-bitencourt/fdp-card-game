@@ -40,46 +40,57 @@ class PlayerInterface(DogPlayerInterface):
         self.__texto.place(x=430, y=225)
 
         # Criação do Entry
-        self.entry = Entry(self.__janela, font=('Helvetica', 12), width=20)
-        self.entry.pack(pady=20)
-        self.entry.place(x=415, y=275)
+        self.__entrada = Entry(self.__janela, font=('Helvetica', 12), width=20)
+        self.__entrada.pack(pady=20)
+        self.__entrada.place(x=415, y=275)
 
         # Criando e configurando o botão conectar ao servidor
-        self.start_button = Button(self.__janela, text="Conectar ao servidor", command=self.conectar_servidor)
-        self.start_button.pack(pady=20, ipadx=10, ipady=5)
-        self.start_button.place(x=445, y=455)
+        self.__botao_conectar = Button(self.__janela, text="Conectar ao servidor", command=self.conectar_servidor)
+        self.__botao_conectar.pack(pady=20, ipadx=10, ipady=5)
+        self.__botao_conectar.place(x=445, y=455)
 
         # Criando e configurando o botão iniciar partida
-        self.start_match_button = Button(self.__janela, text="Iniciar partida", command=self.start_match)
-        self.start_match_button.pack(pady=20, ipadx=10, ipady=5)
-        self.start_match_button.place(x=465, y=505)
+        self.__botao_iniciar = Button(self.__janela, text="Iniciar partida", command=self.start_match)
+        self.__botao_iniciar.pack(pady=20, ipadx=10, ipady=5)
+        self.__botao_iniciar.place(x=465, y=505)
 
         #Loop principal
         self.__janela.mainloop()
 
     def conectar_servidor(self):
-            self.__nome = self.entry.get()
-            self.dog_server_interface = DogActor()
-            mensagem = self.dog_server_interface.initialize(self.__nome, self)
+            self.__nome = self.__entrada.get()
+            self.__dog_server_interface = DogActor()
+            mensagem = self.__dog_server_interface.initialize(self.__nome, self)
             messagebox.showinfo("Mensagem", mensagem)
             if mensagem == "Conectado a Dog Server":
-                self.start_button["state"] = "disabled"
-                self.start_button["text"] = "Aguardando oponente"
+                self.__botao_conectar["state"] = "disabled"
+                self.__botao_conectar["text"] = "Aguardando oponente"
+                self.__botao_conectar.place(x=440, y=455)
 
 
     def start_match(self):
-        start_status = self.dog_server_interface.start_match(1)
-        players = start_status.get_players()
+        start_status = self.__dog_server_interface.start_match(1)
+        mensagem = start_status.get_message()
+        messagebox.showinfo("Mensagem", mensagem)
+        if start_status.code == '2':
+            self.__botao_iniciar.destroy()
+            self.__botao_conectar.destroy()
+            self.__entrada.destroy()
+            self.__texto.destroy()
 
-        for player in players:
-            self.__jogadores.append(Jogador(player[0], int(player[2])))
+        players_start_status = start_status.get_players()
+        for player in players_start_status:
+            novo_jogador = Jogador(player[0], int(player[2]))
             if player[0] == self.__nome:
-                self.__indice_local = players.index(player)
+                self.__indice_local = player[2]
+            if player[2] == 1:
+                novo_jogador.set_turno(TRUE)
+            self.__jogadores.append(novo_jogador)
+
+        if players_start_status[self.__indice_local][2] == 1:
+            self.__turno = TRUE
 
         self.__jogo = Jogo(self.__jogadores, self.__indice_local)
-
-        if players[self.__indice_local] == 1:
-            self.__turno = TRUE
 
         for jogador in self.__jogadores:
             if jogador.get_indice() == self.__indice_local:
@@ -91,15 +102,8 @@ class PlayerInterface(DogPlayerInterface):
             elif jogador.get_indice() == (self.__indice_local + 3) % 4:
                 posicao_esquerda = PosicaoEsquerda(jogador)
 
-        
-        
-            
+        self.imprime_elementos_mesa()
 
-        message = start_status.get_message()
-        messagebox.showinfo("Mensagem", message)
-        if start_status.code == '2':
-            self.start_match_button.destroy()
-   
 
     def receive_start(self, start_status):
         message = start_status.get_message()
