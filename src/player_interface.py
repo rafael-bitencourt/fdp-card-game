@@ -12,13 +12,13 @@ from posicao import *
 class PlayerInterface(DogPlayerInterface):
     def __init__(self):
         self.__nome = None
-        self.__indice_local = None
+        self.__jogador_local = None
         self.__turno = FALSE
         self.__inicio_rodada = TRUE
         self.__posicoes = []
         self.__jogo = None
         self.__jogadores = []
-        self.__posicoes = [PosicaoBaixo, PosicaoDireita, PosicaoCima, PosicaoEsquerda]
+        self.__posicoes = []
         self.inicializar()
 
 
@@ -80,27 +80,27 @@ class PlayerInterface(DogPlayerInterface):
 
         players_start_status = start_status.get_players()
         for player in players_start_status:
-            novo_jogador = Jogador(player[0], int(player[2]))
-            if player[0] == self.__nome:
-                self.__indice_local = player[2]
-            if player[2] == 1:
+            novo_jogador = Jogador(player)
+            if novo_jogador.get_nome() == self.__nome:
+                self.__jogador_local = novo_jogador
+            if novo_jogador.get_indice() == 1:
                 novo_jogador.set_turno(TRUE)
             self.__jogadores.append(novo_jogador)
 
-        if players_start_status[self.__indice_local][2] == 1:
+        if self.__jogador_local.get_indice() == 1:
             self.__turno = TRUE
 
-        self.__jogo = Jogo(self.__jogadores, self.__indice_local)
+        self.__jogo = Jogo(self.__jogadores, self.__jogador_local)
 
-        for jogador in self.__jogadores:
-            if jogador.get_indice() == self.__indice_local:
-                posicao_baixo = PosicaoBaixo(jogador)
-            elif jogador.get_indice() == (self.__indice_local + 1) % 4:
-                posicao_direita = PosicaoDireita(jogador)
-            elif jogador.get_indice() == (self.__indice_local + 2) % 4:
-                posicao_cima = PosicaoCima(jogador)
-            elif jogador.get_indice() == (self.__indice_local + 3) % 4:
-                posicao_esquerda = PosicaoEsquerda(jogador)
+        #for jogador in self.__jogadores:
+        #    if jogador.get_indice() == self.__jogador_local.get_indice():
+        #        self.__posicoes.append(PosicaoBaixo(jogador))
+        #    elif jogador.get_indice() == (self.__jogador_local.get_indice() + 1) % 4:
+        #        self.__posicoes.append(PosicaoDireita(jogador))
+        #    elif jogador.get_indice() == (self.__jogador_local.get_indice() + 2) % 4:
+        #        self.__posicoes.append(PosicaoCima(jogador))
+        #    elif jogador.get_indice() == (self.__jogador_local.get_indice() + 3) % 4:
+        #        self.__posicoes.append(PosicaoEsquerda(jogador))
 
         self.imprime_elementos_mesa()
 
@@ -122,6 +122,11 @@ class PlayerInterface(DogPlayerInterface):
     def receive_withdrawal_notification(self):
         print("O jogador desistiu do jogo")
         
+
+    def atualizar_interface(self):
+        for posicao in self.__posicoes:
+            posicao.atualizar_frame()
+
 
     def imprime_elementos_mesa(self):
         #Configurando a imagem de fundo

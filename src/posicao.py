@@ -1,17 +1,47 @@
-#cada posicao vi retornar um frame computado com as informacoes do jogador
+from tkinter import Frame
 
 class Posicao:
-    def __init__(self, jogador):
-        self.__frame = None
+    def __init__(self, jogador, janela):
+        self._frame = None
+        self._jogador = jogador
+        self._janela = janela
+        self._total_pontos = jogador.get_total_pontos()
+        self._quantas_disse = jogador.get_quantas_disse()
+        self._quantas_fez = jogador.get_quantas_fez()
+        self._cartas_jogador = jogador.get_cartas_jogador()
+        self._carta_jogada = jogador.get_carta_jogada()
+    
+    def atualizar_frame(self):
+        pass
 
-class PosicaoBaixo:
-    pass
+class PosicaoBaixo(Posicao):
+    def __init__(self, jogador, janela):
+        super().__init__(jogador, janela)
+        self._frame = Frame(self._janela, bg="red", width=200, height=200)
 
-class PosicaoDireita:
-    pass
+    def atualizar_frame(self):
+        self._frame.place(x=400, y=400)
 
-class PosicaoCima:
-    pass
+class PosicaoDireita(Posicao):
+    def __init__(self, jogador, janela):
+        super().__init__(jogador, janela)
+        self._frame = Frame(self._janela, bg="blue", width=200, height=200)
 
-class PosicaoEsquerda:
-    pass
+    def atualizar_frame(self):
+        self._frame.place(x=600, y=200)
+    
+class PosicaoCima(Posicao):
+    def __init__(self, jogador, janela):
+        super().__init__(jogador, janela)
+        self._frame = Frame(self._janela, bg="green", width=200, height=200)
+
+    def atualizar_frame(self):
+        self._frame.place(x=400, y=0)
+
+class PosicaoEsquerda(Posicao):
+    def __init__(self, jogador, janela):
+        super().__init__(jogador, janela)
+        self._frame = Frame(self._janela, bg="yellow", width=200, height=200)
+
+    def atualizar_frame(self):
+        self._frame.place(x=200, y=200)

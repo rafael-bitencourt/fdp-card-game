@@ -2,9 +2,9 @@ from dog.dog_actor import DogActor
 from dog.dog_interface import DogPlayerInterface
 
 class Jogador():
-    def __init__(self, nome, indice):
-        self.__nome = nome
-        self.__indice = indice
+    def __init__(self, player):
+        self.__nome = player[0]
+        self.__indice = int(player[2])
         self.__cartas_jogador = []
         self.__turno = False
         self.__quantas_disse = 0

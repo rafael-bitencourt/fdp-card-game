@@ -1,15 +1,15 @@
 import math
 
 class Jogo:
-    def __init__(self, jogadores, indice_local):
+    def __init__(self, jogadores, jogador_local):
         self.__jogadores = jogadores
-        self.__indice_local = indice_local
+        self.__jogador_local = jogador_local
     
     def get_jogadores(self):
         return self.__jogadores
     
-    def get_indice_local(self):
-        return self.__indice_local
+    def get_jogador_local(self):
+        return self.__jogador_local
 
     def computar_vencedor_jogo(self):
         jogadores = self.get_jogadores()
