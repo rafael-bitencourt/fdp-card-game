@@ -20,6 +20,7 @@ class PlayerInterface(DogPlayerInterface):
         self.__jogo = None
         self.__jogadores = []
         self.__posicoes = []
+        self.__dog_server_interface = None
 
         # Inicializa a interface
         self.inicializar()
@@ -64,10 +65,20 @@ class PlayerInterface(DogPlayerInterface):
 
 
     def conectar_servidor(self):
-        # Inicializa o servidor com o nome inserido
+        # Verifica se o nome foi inserido
         self.__nome = self.__entrada.get()
+        if self.__nome == "":
+            messagebox.showinfo("Mensagem", "Digite um nome")
+            return
+        
+        # Conecta ao servidor
         self.__dog_server_interface = DogActor()
         mensagem = self.__dog_server_interface.initialize(self.__nome, self)
+
+        # Verifica se o nome foi inserido
+        if self.__nome == "":
+            messagebox.showinfo("Mensagem", "Digite um nome")
+            return
 
         # Retorna a mensagem recebida
         messagebox.showinfo("Mensagem", mensagem)
@@ -80,6 +91,11 @@ class PlayerInterface(DogPlayerInterface):
 
 
     def start_match(self):
+        # Verifica se o jogador está conectado
+        if self.__dog_server_interface == None:
+            messagebox.showinfo("Mensagem", "Conecte ao servidor primeiro")
+            return
+
         # Verifica quantidade de jogadores conectados
         start_status = self.__dog_server_interface.start_match(2)
         mensagem = start_status.get_message()
@@ -88,11 +104,13 @@ class PlayerInterface(DogPlayerInterface):
         messagebox.showinfo("Mensagem", mensagem)
 
         # Verifica sucesso na inicialização da partida
-        if start_status.code == '2':
-            self.__botao_iniciar.destroy()
-            self.__botao_conectar.destroy()
-            self.__entrada.destroy()
-            self.__texto.destroy()
+        if start_status.code != '2':
+            return
+
+        self.__botao_iniciar.destroy()
+        self.__botao_conectar.destroy()
+        self.__entrada.destroy()
+        self.__texto.destroy()
 
         # Transforma lista de players do DogServer em Jogaodres
         players_start_status = start_status.get_players()
