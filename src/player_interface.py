@@ -97,7 +97,7 @@ class PlayerInterface(DogPlayerInterface):
             return
 
         # Verifica quantidade de jogadores conectados
-        start_status = self.__dog_server_interface.start_match(2)
+        start_status = self.__dog_server_interface.start_match(1)
         mensagem = start_status.get_message()
 
         # Retorna a mensagem recebida
@@ -107,6 +107,7 @@ class PlayerInterface(DogPlayerInterface):
         if start_status.code != '2':
             return
 
+        # Destroi elementos da tela
         self.__botao_iniciar.destroy()
         self.__botao_conectar.destroy()
         self.__entrada.destroy()
@@ -126,13 +127,13 @@ class PlayerInterface(DogPlayerInterface):
         # Cria as posições dos jogadores
         for jogador in self.__jogadores:
             if jogador.get_indice() == self.__jogador_local.get_indice():
-                self.__posicoes.append(PosicaoBaixo(jogador, self.__janela))
+                self.__posicoes.append(PosicaoBaixo(self, jogador))
             elif jogador.get_indice() == (self.__jogador_local.get_indice() + 1) % 4:
-                self.__posicoes.append(PosicaoDireita(jogador, self.__janela))
+                self.__posicoes.append(PosicaoDireita(self, jogador))
             elif jogador.get_indice() == (self.__jogador_local.get_indice() + 2) % 4:
-                self.__posicoes.append(PosicaoCima(jogador, self.__janela))
+                self.__posicoes.append(PosicaoCima(self, jogador))
             elif jogador.get_indice() == (self.__jogador_local.get_indice() + 3) % 4:
-                self.__posicoes.append(PosicaoEsquerda(jogador, self.__janela))
+                self.__posicoes.append(PosicaoEsquerda(self, jogador))
             
             
         # Botão de atualizar interface para testes
@@ -145,6 +146,10 @@ class PlayerInterface(DogPlayerInterface):
         # Muda a cor e espera atualização
         for posicao in self.__posicoes:
             posicao.cor = "white"
+
+    # Funcao para testar botao de Posicao
+    def teste(self):
+        print("Teste")
 
     def receive_start(self, start_status):
         message = start_status.get_message()
@@ -168,6 +173,8 @@ class PlayerInterface(DogPlayerInterface):
         for posicao in self.__posicoes:
             posicao.atualizar_frame()
 
+    def get_janela(self):
+        return self.__janela
 
     def imprime_elementos_mesa(self):
         #Configurando a imagem de fundo
