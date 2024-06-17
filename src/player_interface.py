@@ -118,8 +118,6 @@ class PlayerInterface(DogPlayerInterface):
             novo_jogador = Jogador(player)
             if novo_jogador.get_nome() == self.__nome:
                 self.__jogador_local = novo_jogador
-            if novo_jogador.get_indice() == 1:
-                novo_jogador.set_turno(TRUE)
             self.__jogadores.append(novo_jogador)
 
         # Instancia o jogo
@@ -135,7 +133,8 @@ class PlayerInterface(DogPlayerInterface):
                 self.__posicoes.append(PosicaoCima(jogador, self.__janela))
             elif jogador.get_indice() == (self.__jogador_local.get_indice() + 3) % 4:
                 self.__posicoes.append(PosicaoEsquerda(jogador, self.__janela))
-
+            
+            
         # Botão de atualizar interface para testes
         self.botao = Button(self.__janela, text="atualizar", command=self.atualizar_interface)
         self.botao.place(x=0, y=0)
