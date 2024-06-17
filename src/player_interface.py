@@ -12,18 +12,21 @@ from posicao import *
 
 class PlayerInterface(DogPlayerInterface):
     def __init__(self):
+        # Atributos
         self.__nome = None
         self.__jogador_local = None
-        self.__turno = FALSE
         self.__inicio_rodada = TRUE
         self.__posicoes = []
         self.__jogo = None
         self.__jogadores = []
         self.__posicoes = []
+
+        # Inicializa a interface
         self.inicializar()
 
 
     def inicializar(self):
+        # Criando a janela
         self.__janela = Tk()
         self.__janela.geometry("1012x759")
         self.__janela.resizable(False, False)
@@ -31,6 +34,7 @@ class PlayerInterface(DogPlayerInterface):
         self.__icone = PhotoImage(file='assets/icone.png')
         self.__janela.iconphoto(True, self.__icone)
 
+        # Configurando a imagem de fundo
         self.__mesa = PhotoImage(file="assets/mesa.png")
         self.__label_mesa = Label(self.__janela, image=self.__mesa)
         self.__label_mesa.place(x=0, y=0, relwidth=1, relheight=1)
@@ -58,27 +62,39 @@ class PlayerInterface(DogPlayerInterface):
         #Loop principal
         self.__janela.mainloop()
 
+
     def conectar_servidor(self):
-            self.__nome = self.__entrada.get()
-            self.__dog_server_interface = DogActor()
-            mensagem = self.__dog_server_interface.initialize(self.__nome, self)
-            messagebox.showinfo("Mensagem", mensagem)
-            if mensagem == "Conectado a Dog Server":
-                self.__botao_conectar["state"] = "disabled"
-                self.__botao_conectar["text"] = "Aguardando oponente"
-                self.__botao_conectar.place(x=440, y=455)
+        # Inicializa o servidor com o nome inserido
+        self.__nome = self.__entrada.get()
+        self.__dog_server_interface = DogActor()
+        mensagem = self.__dog_server_interface.initialize(self.__nome, self)
+
+        # Retorna a mensagem recebida
+        messagebox.showinfo("Mensagem", mensagem)
+
+        # Verifica sucesso na conexão
+        if mensagem == "Conectado a Dog Server":
+            self.__botao_conectar["state"] = "disabled"
+            self.__botao_conectar["text"] = "Aguardando oponente"
+            self.__botao_conectar.place(x=440, y=455)
 
 
     def start_match(self):
+        # Verifica quantidade de jogadores conectados
         start_status = self.__dog_server_interface.start_match(2)
         mensagem = start_status.get_message()
+
+        # Retorna a mensagem recebida
         messagebox.showinfo("Mensagem", mensagem)
+
+        # Verifica sucesso na inicialização da partida
         if start_status.code == '2':
             self.__botao_iniciar.destroy()
             self.__botao_conectar.destroy()
             self.__entrada.destroy()
             self.__texto.destroy()
 
+        # Transforma lista de players do DogServer em Jogaodres
         players_start_status = start_status.get_players()
         for player in players_start_status:
             novo_jogador = Jogador(player)
@@ -88,11 +104,10 @@ class PlayerInterface(DogPlayerInterface):
                 novo_jogador.set_turno(TRUE)
             self.__jogadores.append(novo_jogador)
 
-        if self.__jogador_local.get_indice() == 1:
-            self.__turno = TRUE
-
+        # Instancia o jogo
         self.__jogo = Jogo(self.__jogadores, self.__jogador_local)
 
+        # Cria as posições dos jogadores
         for jogador in self.__jogadores:
             if jogador.get_indice() == self.__jogador_local.get_indice():
                 self.__posicoes.append(PosicaoBaixo(jogador, self.__janela))
@@ -103,10 +118,14 @@ class PlayerInterface(DogPlayerInterface):
             elif jogador.get_indice() == (self.__jogador_local.get_indice() + 3) % 4:
                 self.__posicoes.append(PosicaoEsquerda(jogador, self.__janela))
 
+        # Botão de atualizar interface para testes
         self.botao = Button(self.__janela, text="atualizar", command=self.atualizar_interface)
         self.botao.place(x=0, y=0)
 
+        # Atualiza a interface
         self.atualizar_interface()
+
+        # Muda a cor e espera atualização
         for posicao in self.__posicoes:
             posicao.cor = "white"
 
