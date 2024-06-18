@@ -1,44 +1,78 @@
-from PIL import Image, ImageTk
 from tkinter import *
-from tkinter import messagebox
-import time
+from tkinter import PhotoImage
+from jogador import Jogador
+from baralho import Baralho
 
-def imprimir_carta():
-    print("ta no inferno abaraca o perneta")
+# Inicializando o baralho e o jogador
+baralho = Baralho()
+baralho.embaralhar()
+jogador1 = Jogador(["Jogador 1", 1, 100])
+jogador1.set_cartas_jogador(baralho.retirar_cartas(7))
 
+
+# Configuração da janela principal
 janela = Tk()
 janela.geometry("1012x759")
 janela.resizable(False, False)
 janela.title("Interface Filho da Puta")
 icone = PhotoImage(file='assets/icone.png')
 janela.iconphoto(True, icone)
-
 mesa = PhotoImage(file="assets/mesa-interface.png")
 label_mesa = Label(janela, image=mesa)
 label_mesa.place(x=0, y=0, relwidth=1, relheight=1)
 
-imagem_carta_1 = PhotoImage(file="assets/cartas/K paus.png")
-imagem_carta_2 = PhotoImage(file="assets/cartas/Q copas.png")
-imagem_carta_3 = PhotoImage(file="assets/cartas/A paus.png")
-imagem_carta_4 = PhotoImage(file="assets/cartas/2 copas.png")
-imagem_carta_5 = PhotoImage(file="assets/cartas/3 copas.png")
-imagem_carta_6 = PhotoImage(file="assets/cartas/4 copas.png")
-imagem_carta_7 = PhotoImage(file="assets/cartas/5 copas.png")
-                            
-carta_1 = Button(janela, command=lambda: imprimir_carta(), width=55, height=80, image=imagem_carta_1, bd=3)
-carta_2 = Button(janela, command=lambda: imprimir_carta(), width=55, height=80, image=imagem_carta_2, bd=3)
-carta_3 = Button(janela, command=lambda: imprimir_carta(), width=55, height=80, image=imagem_carta_3, bd=3)
-carta_4 = Button(janela, command=lambda: imprimir_carta(), width=55, height=80, image=imagem_carta_4, bd=3)
-carta_5 = Button(janela, command=lambda: imprimir_carta(), width=55, height=80, image=imagem_carta_5, bd=3)
-carta_6 = Button(janela, command=lambda: imprimir_carta(), width=55, height=80, image=imagem_carta_6, bd=3)
-carta_7 = Button(janela, command=lambda: imprimir_carta(), width=55, height=80, image=imagem_carta_7, bd=3)
 
-carta_1.place(x=240, y=664)
-carta_2.place(x=300, y=664)
-carta_3.place(x=360, y=664)
-carta_4.place(x=420, y=664)
-carta_5.place(x=480, y=664)
-carta_6.place(x=540, y=664)
-carta_7.place(x=600, y=664)
+# Dicionários para armazenar imagens e botões das cartas
+imagens_cartas = {}
+botoes_cartas = {}
+carta_na_mesa = None  
+
+
+# Carrega as imagens das cartas iniciais do jogador
+for carta in jogador1.get_cartas_jogador():
+    path = f"assets/cartas/{carta.get_valor()} {carta.get_naipe()}.png"
+    imagens_cartas[carta] = PhotoImage(file=path)
+
+
+# Função para jogar uma carta
+def jogar_carta(carta):
+    global carta_na_mesa  # Permite modificar a variável global
+    jogador1.jogar_carta(carta)
+    # Se já existe uma carta na mesa, removê-la
+    if carta_na_mesa:
+        carta_na_mesa.destroy()
+    
+    # Exibe a nova carta na mesa
+    img_carta_jogada = imagens_cartas[carta]
+    carta_na_mesa = Label(janela, image=img_carta_jogada)
+    carta_na_mesa.place(x=480, y=490)  # Posiciona a carta na mesa (ajustar x e y conforme necessário)
+
+    # Remove o botão da carta jogada
+    botao = botoes_cartas.pop(carta)
+    botao.destroy()  # Desabilita o botão
+    print(f"Carta jogada: {jogador1.get_carta_jogada().get_valor()} de {jogador1.get_carta_jogada().get_naipe()}")
+    print(f"Cartas restantes: {[carta.get_valor() for carta in jogador1.get_cartas_jogador()]}")
+    
+    # Atualiza a posição das cartas restantes
+    atualizar_posicao_cartas()
+
+# Função para atualizar a posição das cartas
+def atualizar_posicao_cartas():
+    largura_janela = 1012
+    largura_carta = 55
+    n = len(botoes_cartas)
+    x_inicial = (largura_janela - (n * largura_carta)) / 2
+    for i, (carta, botao) in enumerate(botoes_cartas.items()):
+        x = x_inicial + i * largura_carta
+        botao.place(x=x, y=664)
+
+# Criar e posicionar os botões das cartas iniciais
+for carta, img in imagens_cartas.items():
+    botao = Button(janela, image=img, command=lambda carta=carta: jogar_carta(carta))
+    botoes_cartas[carta] = botao
+    botao.pack()
+
+# Inicializa a posição das cartas
+atualizar_posicao_cartas()
 
 janela.mainloop()
