@@ -17,7 +17,7 @@ janela.resizable(False, False)
 janela.title("Interface Filho da Puta")
 icone = PhotoImage(file='assets/icone.png')
 janela.iconphoto(True, icone)
-mesa = PhotoImage(file="assets/mesa-interface.png")
+mesa = PhotoImage(file="assets/mesa.png")
 label_mesa = Label(janela, image=mesa)
 label_mesa.place(x=0, y=0, relwidth=1, relheight=1)
 
