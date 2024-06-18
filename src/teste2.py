@@ -50,8 +50,6 @@ def jogar_carta(carta):
     # Remove o botão da carta jogada
     botao = botoes_cartas.pop(carta)
     botao.destroy()  # Desabilita o botão
-    print(f"Carta jogada: {jogador1.get_carta_jogada().get_valor()} de {jogador1.get_carta_jogada().get_naipe()}")
-    print(f"Cartas restantes: {[carta.get_valor() for carta in jogador1.get_cartas_jogador()]}")
     
     # Atualiza a posição das cartas restantes
     atualizar_posicao_cartas()
@@ -64,7 +62,7 @@ def atualizar_posicao_cartas():
     x_inicial = (largura_janela - (n * largura_carta)) / 2
     for i, (carta, botao) in enumerate(botoes_cartas.items()):
         x = x_inicial + i * largura_carta
-        botao.place(x=x, y=664)
+        botao.place(x=x, y=650)
 
 # Criar e posicionar os botões das cartas iniciais
 for carta, img in imagens_cartas.items():

@@ -9,6 +9,7 @@ from dog.dog_actor import DogActor
 from jogador import Jogador
 from jogo import Jogo
 from posicao import *
+from baralho import Baralho
 
 class PlayerInterface(DogPlayerInterface):
     def __init__(self):
@@ -98,7 +99,7 @@ class PlayerInterface(DogPlayerInterface):
             return
 
         # Verifica quantidade de jogadores conectados
-        start_status = self.__dog_server_interface.start_match(2)
+        start_status = self.__dog_server_interface.start_match(4)
         mensagem = start_status.get_message()
 
         # Retorna a mensagem recebida
@@ -135,22 +136,14 @@ class PlayerInterface(DogPlayerInterface):
                 self.__posicoes.append(PosicaoCima(self, jogador))
             elif jogador.get_indice() == (self.__jogador_local.get_indice() + 3) % 4:
                 self.__posicoes.append(PosicaoEsquerda(self, jogador))
-            
-            
-        # Botão de atualizar interface para testes
-        self.botao = Button(self.__janela, text="atualizar", command=self.atualizar_interface)
-        self.botao.place(x=0, y=0)
+
+            # Teste
+            baralho = Baralho()
+            jogador.set_cartas_jogador(baralho.retirar_cartas(7))
 
         # Atualiza a interface
         self.atualizar_interface()
 
-        # Muda a cor e espera atualização
-        for posicao in self.__posicoes:
-            posicao.cor = "white"
-
-    # Funcao para testar botao de Posicao
-    def teste(self):
-        print("Teste")
 
     def receive_start(self, start_status):
         message = start_status.get_message()
@@ -161,6 +154,11 @@ class PlayerInterface(DogPlayerInterface):
             players = start_status.get_players()
             print(players)
 
+
+    def jogar_carta(self, carta):
+        self.__jogador_local.jogar_carta(carta)
+        self.atualizar_interface()
+
         
     def receive_move(self, a_move):
         print(f"O jogador jogou.")
@@ -168,17 +166,62 @@ class PlayerInterface(DogPlayerInterface):
 
     def receive_withdrawal_notification(self):
         print("O jogador desistiu do jogo")
-
-    def jogar_carta(self, carta):
-        self.__jogo.jogar_carta(carta)
         
 
     def atualizar_interface(self):
         for posicao in self.__posicoes:
-            posicao.atualizar_frame()
+            posicao.atualizar_interface()
+
 
     def get_janela(self):
         return self.__janela
+    
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
     def imprime_elementos_mesa(self):
         #Configurando a imagem de fundo

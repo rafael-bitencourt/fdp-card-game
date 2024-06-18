@@ -19,7 +19,7 @@ class Carta:
         self.__naipe = naipe
     
     def __str__(self):
-        return f"{self.valor} de {self.naipe}"
+        return f"{self.__valor} {self.__naipe}"
     
     def get_valor(self):
         return self.__valor
@@ -28,4 +28,4 @@ class Carta:
         return self.__naipe
 
     def get_forca(self):
-        return Carta.forca_cartas[f"{self.get_valor()} {self.get_naipe()}"]
+        return Carta.forca_cartas[f"{self.__valor} {self.__naipe}"]

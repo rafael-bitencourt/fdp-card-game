@@ -50,4 +50,7 @@ class Jogador():
     
     def jogar_carta(self, carta):
         self.__carta_jogada = carta
-        self.__cartas_jogador.remove(carta)
+        for carta in self.__cartas_jogador:
+            if str(carta) == str(self.__carta_jogada):
+                self.__cartas_jogador.remove(carta)
+                break
