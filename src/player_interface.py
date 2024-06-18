@@ -108,8 +108,8 @@ class PlayerInterface(DogPlayerInterface):
         # Verifica sucesso na inicialização da partida
         if start_status.code != '2':
             return
-
-        # Destroi elementos da tela
+        
+        #Destroi elementos da tela
         self.__botao_iniciar.destroy()
         self.__botao_conectar.destroy()
         self.__entrada.destroy()
@@ -128,18 +128,19 @@ class PlayerInterface(DogPlayerInterface):
 
         # Cria as posições dos jogadores
         for jogador in self.__jogadores:
-            if jogador.get_indice() == self.__jogador_local.get_indice():
-                self.__posicoes.append(PosicaoBaixo(self, jogador))
-            elif jogador.get_indice() == (self.__jogador_local.get_indice() + 1) % 4:
-                self.__posicoes.append(PosicaoDireita(self, jogador))
-            elif jogador.get_indice() == (self.__jogador_local.get_indice() + 2) % 4:
-                self.__posicoes.append(PosicaoCima(self, jogador))
-            elif jogador.get_indice() == (self.__jogador_local.get_indice() + 3) % 4:
-                self.__posicoes.append(PosicaoEsquerda(self, jogador))
 
             # Teste
             baralho = Baralho()
             jogador.set_cartas_jogador(baralho.retirar_cartas(7))
+
+            if jogador.get_indice() == self.__jogador_local.get_indice():
+                self.__posicoes.append(PosicaoBaixo(self, jogador))
+            elif jogador.get_indice() == ((self.__jogador_local.get_indice() + 1) % 5) + 1:
+                self.__posicoes.append(PosicaoDireita(self, jogador))
+            elif jogador.get_indice() == ((self.__jogador_local.get_indice() + 2) % 5) + 1:
+                self.__posicoes.append(PosicaoCima(self, jogador))
+            elif jogador.get_indice() == ((self.__jogador_local.get_indice() + 3) % 5) + 1:
+                self.__posicoes.append(PosicaoEsquerda(self, jogador))
 
         # Atualiza a interface
         self.atualizar_interface()
