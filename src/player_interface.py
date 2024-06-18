@@ -1,5 +1,5 @@
-from tkinter import *
 from PIL import Image, ImageTk
+from tkinter import *
 from tkinter import messagebox
 import time
 
@@ -21,6 +21,7 @@ class PlayerInterface(DogPlayerInterface):
         self.__jogadores = []
         self.__posicoes = []
         self.__dog_server_interface = None
+
 
         # Inicializa a interface
         self.inicializar()
@@ -97,7 +98,7 @@ class PlayerInterface(DogPlayerInterface):
             return
 
         # Verifica quantidade de jogadores conectados
-        start_status = self.__dog_server_interface.start_match(1)
+        start_status = self.__dog_server_interface.start_match(2)
         mensagem = start_status.get_message()
 
         # Retorna a mensagem recebida
@@ -167,6 +168,9 @@ class PlayerInterface(DogPlayerInterface):
 
     def receive_withdrawal_notification(self):
         print("O jogador desistiu do jogo")
+
+    def jogar_carta(self, carta):
+        self.__jogo.jogar_carta(carta)
         
 
     def atualizar_interface(self):
@@ -183,16 +187,16 @@ class PlayerInterface(DogPlayerInterface):
         self.__label_mesa.place(x=0, y=0, relwidth=1, relheight=1)
 
         #Configurando jogar_carta
-        self.__imagem_carta_1 = ImageTk.PhotoImage(Image.open("assets/cartas/K paus.png"))
-        self.__imagem_carta_2 = ImageTk.PhotoImage(Image.open("assets/cartas/Q copas.png"))
-        self.__imagem_carta_3 = ImageTk.PhotoImage(Image.open("assets/cartas/6 paus.png"))
+        self.__imagem_carta_1 = PhotoImage(file="assets/cartas/K paus.png")
+        self.__imagem_carta_2 = PhotoImage(file="assets/cartas/Q copas.png")
+        self.__imagem_carta_3 = PhotoImage(file="assets/cartas/A paus.png")
 
-        self.__carta_1 = Button(self.__janela, command=lambda: self.imprimir_carta(1), width=70, height=100, image=self.__imagem_carta_1, bd=3)
-        self.__carta_2 = Button(self.__janela, command=lambda: self.imprimir_carta(2), width=70, height=100, image=self.__imagem_carta_2, bd=3)
-        self.__carta_3 = Button(self.__janela, command=lambda: self.imprimir_carta(3), width=70, height=100, image=self.__imagem_carta_3, bd=3)
+        self.__carta_1 = Button(self.__janela, command=lambda: self.imprimir_carta(1), width=55, height=80, image=self.__imagem_carta_1, bd=3)
+        self.__carta_2 = Button(self.__janela, command=lambda: self.imprimir_carta(2), width=55, height=80, image=self.__imagem_carta_2, bd=3)
+        self.__carta_3 = Button(self.__janela, command=lambda: self.imprimir_carta(3), width=55, height=80, image=self.__imagem_carta_3, bd=3)
         
-        self.__carta_1.place(x=360, y=644)
-        self.__carta_2.place(x=491, y=644)
+        self.__carta_1.place(x=491, y=700)
+        self.__carta_2.place(x=491, y=600)
         self.__carta_3.place(x=621, y=644)
 
 
