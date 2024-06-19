@@ -65,6 +65,16 @@ class PosicaoBaixo(Posicao):
         super().__init__(player_interface, jogador)
         
     def imprimir_elementos(self):
+
+        # Imprime label do total de pontos
+        self._label_total_pontos = Label(self._janela, text=str(self._total_pontos), font=("Arial", 34), bg="#D9D9D9")
+        self._label_total_pontos.pack()
+        if self._total_pontos < 10:
+            self._label_total_pontos.place(x=932, y=664)
+        else:
+            self._label_total_pontos.place(x=919, y=664)
+
+        
         # Cria botoes das cartas do jogador
         for carta in self._cartas_jogador:
             botao = Button(self._janela , image=self._imagens_cartas[str(carta)], command=lambda carta=carta: self._player_interface.jogar_carta(carta))
@@ -88,7 +98,7 @@ class PosicaoDireita(Posicao):
     def imprimir_elementos(self):
         # Cria labels das cartas do jogador
         for carta in self._cartas_jogador:
-            label = Label(self._janela, image=self._imagens_cartas["verso de lado"], width=80, height=55)
+            label = Label(self._janela, image=self._imagens_cartas["verso de lado"], height=60, width=90)
             self._botoes_cartas_jogador[str(carta)] = label
             label.pack()
     
@@ -99,7 +109,7 @@ class PosicaoDireita(Posicao):
         y_inicial = (altura_janela - (n * altura_carta)) / 2
         for i, (carta, botao) in enumerate(self._botoes_cartas_jogador.items()):
             y = y_inicial + i * altura_carta
-            botao.place(x=860, y=y)
+            botao.place(x=870, y=y)
 
 
 class PosicaoCima(Posicao):
@@ -109,18 +119,18 @@ class PosicaoCima(Posicao):
     def imprimir_elementos(self):
         # Cria labels das cartas do jogador
         for carta in self._cartas_jogador:
-            label = Label(self._janela, image=self._imagens_cartas["verso"])
+            label = Label(self._janela, image=self._imagens_cartas["verso"], height=90, width=60)
             self._botoes_cartas_jogador[str(carta)] = label
             label.pack()
     
         # Imprime os labels centralizados
-        largura_janela = 990
+        largura_janela = 1020
         largura_carta = 55
         n = len(self._botoes_cartas_jogador)
         x_inicial = (largura_janela - (n * largura_carta)) / 2
         for i, (carta, botao) in enumerate(self._botoes_cartas_jogador.items()):
             x = x_inicial + i * largura_carta
-            botao.place(x=x, y=15)
+            botao.place(x=x, y=20)
 
 
 class PosicaoEsquerda(Posicao):
@@ -130,7 +140,7 @@ class PosicaoEsquerda(Posicao):
     def imprimir_elementos(self):
         # Cria labels das cartas do jogador
         for carta in self._cartas_jogador:
-            label = Label(self._janela, image=self._imagens_cartas["verso de lado"], width=80, height=55)
+            label = Label(self._janela, image=self._imagens_cartas["verso de lado"], height=60, width=90)
             self._botoes_cartas_jogador[str(carta)] = label
             label.pack()
     
