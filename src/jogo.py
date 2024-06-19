@@ -2,43 +2,49 @@ import math
 from rodada import Rodada
 
 class Jogo:
-    def __init__(self, jogadores, jogador_local):
+    def __init__(self, jogadores):
+        print("-> JOGO INICIADO")
         self.__jogadores = jogadores
-        self.__jogador_local = jogador_local
         self.__numero_da_rodada = 1
-        self.__rodada_atual = Rodada(self.__numero_da_rodada)
-        
-    
-    def get_jogadores(self):
-        return self.__jogadores
-    
-    def get_rodada_atual(self):
-        return self.__rodada_atual
-    
-    def get_numero_da_rodada(self):
-        return self.__numero_da_rodada
-    
-    def criar_rodada(self):
-        self.____numero_da_rodada += 1
-        self.__rodada_atual = Rodada(self.____numero_da_rodada)
-        
-    def get_jogador_local(self):
-        return self.__jogador_local
+        self.__rodada = Rodada(self.__numero_da_rodada, self.__jogadores)
+        self.__terminou = False
 
-    def computar_vencedor_jogo(self):
-        jogadores = self.get_jogadores()
-        menor = math.inf
-        for i in range(len(jogadores)):
-            if jogadores[i].get_total_pontos() < menor:
-                menor = jogadores[i].get_total_pontos()
-                jogador_menos_pontos = jogadores[i]   
-        return jogador_menos_pontos
+    # Jogar carta
+    def jogar_carta(self):
+        self.__rodada.jogar_carta()
+
+        # Verificar fim de jogo
+        if self.__rodada.terminou():
+            if self.__numero_da_rodada == 7:
+                self.__terminou = True
+            else:
+                self.criar_rodada()
+
+        if self.__terminou:
+            print(f"-> JOGO TERMINADO")
+            placar = self.computar_placar()
+            for jogador, pontos in placar:
+                print(f"{jogador}: {pontos} pontos")
+
+
+    # Computar vencedor do jogo
+    def computar_placar(self):
+        pontos = {}
+        for jogador in self.__jogadores:
+            pontos[jogador.get_nome()] = jogador.get_total_pontos()
+        return sorted(pontos.items(), key=lambda x: x[1])
+        
     
-    def atribuir_pontos(self):
-        jogadores = self.get_jogadores()
-        for i in range(len(jogadores)):
-            diferenca = abs(jogadores[i].get_quantas_disse() - jogadores[i].get_quantas_fez())
-            jogadores[i].incrementar_total_pontos(diferenca)
+    # Criar nova rodada
+    def criar_rodada(self):
+        self.__numero_da_rodada += 1
+        self.__rodada = Rodada(self.__numero_da_rodada, self.__jogadores)
+    
+    # Get fim jogo
+    def terminou(self):
+        return self.__terminou
+
+
 
         
         

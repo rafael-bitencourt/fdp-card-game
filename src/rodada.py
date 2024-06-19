@@ -2,50 +2,71 @@ from baralho import Baralho
 from mesa import Mesa
 
 class Rodada:
-    def __init__(self, numero_da_rodada):
+    def __init__(self, numero_da_rodada, jogadores):
+        print(f"-> RODADA {numero_da_rodada} INICIADA")
+        # Atributos da rodada
         self.__numero_da_rodada = numero_da_rodada
-        self.__jogador_comeca_mesa = None
+        self.__jogadores = jogadores
+        self.__numero_da_mesa = 1
+        self.__mesa = Mesa(jogadores)
         self.__baralho = Baralho()
         self.__baralho.embaralhar()
-        self.__mesa_atual = 0
-        self.__mesa_maxima = 7
-        self.__mesa = Mesa()
-    
-    def get_numero_da_rodada(self):
-        return self.__numero_da_rodada
+        self.distribuir_cartas()
+        self.__terminou = False
 
-    def get_jogador_comeca_mesa(self):
-        return self.__jogador_comeca_mesa
-    
-    def get_mesa_atual(self):
-        return self.__mesa_atual
+    # Jogar carta
+    def jogar_carta(self):
+        self.__mesa.adicionar_jogador_na_mesa()
 
-    def get_mesa_maxima(self):
-        return self.__mesa_maxima
+        # Verificar fim de rodada
+        if self.__mesa.terminou():
+            if self.__numero_da_mesa == self.__numero_da_rodada:
+                self.atribuir_pontos()
+                self.proximo_que_inicia()
+                self.limpar_quantas_fez()
+                self.limpar_quantas_disse()
+                self.__terminou = True
+            else:
+                self.criar_mesa()
     
-    def get_mesa(self):
-        return self.__mesa
-    
-    def set_numero_da_rodada(self, numero):
-        self.__numero_da_rodada = numero
-    
-    def set_jogador_comeca_mesa(self, jogador):
-        self.__jogador_comeca_mesa = jogador
-    
-    def set_mesa_atual(self, n):
-        self.__mesa_atual = n
-    
-    def set_mesa_maxima(self, n):
-        self.__mesa_maxima = n
+    # Atribuir pontos
+    def atribuir_pontos(self):
+        for jogador in self.__jogadores:
+            diferenca = abs(jogador.get_quantas_disse() - jogador.get_quantas_fez())
+            jogador.incrementar_total_pontos(diferenca)
 
-    def criar_mesa(self, jogadores):
-        self.__mesa.set_jogadores_na_mesa(jogadores)
-        self.__mesa_atual = 1
+    # Continuar rodada
+    def proximo_que_inicia(self):
+        for jogador in self.__jogadores:
+            if jogador.get_indice() == (self.__numero_da_rodada % 4) + 1:
+                jogador.set_turno(True)
+            else:
+                jogador.set_turno(False)
+
+    # Criar nova mesa
+    def criar_mesa(self):
+        self.__numero_da_mesa += 1
+        self.__mesa = Mesa(self.__jogadores)
+
+    # Get fim rodada
+    def terminou(self):
+        return self.__terminou
     
-    def incrementar_mesa(self):
-        self.__mesa_atual += 1
+    # Distribuir cartas
+    def distribuir_cartas(self):
+        for jogador in self.__jogadores:
+            jogador.set_cartas_jogador(self.__baralho.retirar_cartas(self.__numero_da_rodada))
+
+    # Limpar quantas fez
+    def limpar_quantas_fez(self):
+        for jogador in self.__jogadores:
+            jogador.set_quantas_fez(0)
     
-    def entregar_cartas(self):
-        for jogador in self.__mesa.get_jogadores_na_mesa():
-            cartas = self.__baralho.dar_cartas(self.__numero_da_rodada) # quantidade de cartas na mão dos jogadores é igual ao numero da rodada
-            jogador.set_cartas_jogador(cartas)
+    # Limpar quantas disse
+    def limpar_quantas_disse(self):
+        for jogador in self.__jogadores:
+            jogador.set_quantas_disse(0)
+
+
+        
+            

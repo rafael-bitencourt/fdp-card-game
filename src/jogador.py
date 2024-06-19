@@ -41,16 +41,23 @@ class Jogador():
     
     def set_quantas_fez(self, quantas_fez):
         self.__quantas_fez = quantas_fez
+
+    def incrementar_quantas_fez(self):
+        self.__quantas_fez += 1
     
     def set_cartas_jogador(self, cartas):
         self.__cartas_jogador = cartas
 
     def incrementar_total_pontos(self, pontos):
         self.__total_pontos = self.__total_pontos + pontos
+
+    def set_carta_jogada(self, carta):
+        self.__carta_jogada = carta
     
     def jogar_carta(self, carta):
+        print(f"{self.__nome} jogou a carta {carta}")
         self.__carta_jogada = carta
         for carta in self.__cartas_jogador:
             if str(carta) == str(self.__carta_jogada):
                 self.__cartas_jogador.remove(carta)
-                break
+
