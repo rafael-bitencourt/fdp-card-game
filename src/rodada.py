@@ -2,10 +2,11 @@ from baralho import Baralho
 from mesa import Mesa
 
 class Rodada:
-    def __init__(self):
-        self.__numero_da_rodada = 1
+    def __init__(self, numero_da_rodada):
+        self.__numero_da_rodada = numero_da_rodada
         self.__jogador_comeca_mesa = None
         self.__baralho = Baralho()
+        self.__baralho.embaralhar()
         self.__mesa_atual = 0
         self.__mesa_maxima = 7
         self.__mesa = Mesa()
