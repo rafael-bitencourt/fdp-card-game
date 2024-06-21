@@ -14,7 +14,7 @@ class Mesa:
         # Verificar fim de mesa
         if self.__cartas_na_mesa == 4:
 
-            # Se sim computa vencedor da mesa e incrementa quantas fez
+            # Se sim computa vencedor da mesa, incrementa quantas fez e remove cartas jogadas
             self.computar_vencedor_mesa()
             self.incrementar_quantas_fez()
             self.limpar_cartas_jogadas()
@@ -28,10 +28,10 @@ class Mesa:
     # Computar vencedor da mesa
     def computar_vencedor_mesa(self):
         for jogador in self.__jogadores:
+            jogador.set_turno(False)
             if self.__vencedor_da_mesa == None or jogador.get_carta_jogada().get_forca() >= self.__vencedor_da_mesa.get_carta_jogada().get_forca():
                 self.__vencedor_da_mesa = jogador
-            
-            jogador.set_turno(False)
+
         print(f"Vencedor da mesa: {self.__vencedor_da_mesa.get_nome()}")
         self.__vencedor_da_mesa.set_turno(True)
 

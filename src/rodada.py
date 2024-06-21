@@ -14,6 +14,11 @@ class Rodada:
         self.distribuir_cartas()
         self.__terminou = False
 
+    # Distribuir cartas
+    def distribuir_cartas(self):
+        for jogador in self.__jogadores:
+            jogador.set_cartas_jogador(self.__baralho.retirar_cartas(self.__numero_da_rodada))
+
     # Jogar carta
     def jogar_carta(self):
         self.__mesa.adicionar_jogador_na_mesa()
@@ -51,11 +56,6 @@ class Rodada:
     # Get fim rodada
     def terminou(self):
         return self.__terminou
-    
-    # Distribuir cartas
-    def distribuir_cartas(self):
-        for jogador in self.__jogadores:
-            jogador.set_cartas_jogador(self.__baralho.retirar_cartas(self.__numero_da_rodada))
 
     # Limpar quantas fez
     def limpar_quantas_fez(self):

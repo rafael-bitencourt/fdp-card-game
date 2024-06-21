@@ -24,14 +24,14 @@ class Jogo:
             print(f"-> JOGO TERMINADO")
             placar = self.computar_placar()
             for jogador, pontos in placar:
-                print(f"{jogador}: {pontos} pontos")
+                print(f"{jogador.get_nome()}: {pontos} pontos")
 
 
     # Computar vencedor do jogo
     def computar_placar(self):
         pontos = {}
         for jogador in self.__jogadores:
-            pontos[jogador.get_nome()] = jogador.get_total_pontos()
+            pontos[jogador] = jogador.get_total_pontos()
         return sorted(pontos.items(), key=lambda x: x[1])
         
     
