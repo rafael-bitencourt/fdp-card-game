@@ -2,13 +2,14 @@ from baralho import Baralho
 from mesa import Mesa
 
 class Rodada:
-    def __init__(self, numero_da_rodada, jogadores):
+    def __init__(self, player_interface, jogadores, numero_da_rodada):
         print(f"-> RODADA {numero_da_rodada} INICIADA")
         # Atributos da rodada
+        self.__player_interface = player_interface
         self.__numero_da_rodada = numero_da_rodada
         self.__jogadores = jogadores
         self.__numero_da_mesa = 1
-        self.__mesa = Mesa(jogadores)
+        self.__mesa = Mesa(self.__player_interface, self.__jogadores)
         self.__baralho = Baralho()
         self.__baralho.embaralhar()
         self.distribuir_cartas()
@@ -51,7 +52,7 @@ class Rodada:
     # Criar nova mesa
     def criar_mesa(self):
         self.__numero_da_mesa += 1
-        self.__mesa = Mesa(self.__jogadores)
+        self.__mesa = Mesa(self.__player_interface, self.__jogadores)
 
     # Get fim rodada
     def terminou(self):

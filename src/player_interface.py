@@ -1,5 +1,6 @@
 from tkinter import *
 from tkinter import messagebox
+import time
 
 from dog.dog_interface import DogPlayerInterface
 from dog.dog_actor import DogActor
@@ -44,7 +45,7 @@ class PlayerInterface(DogPlayerInterface):
 
         self.botao_teste_proximo_da_mesa = Button(self.__janela, text="Proximo da mesa", command=self.teste_proximo_da_mesa)
         self.botao_teste_proximo_da_mesa.pack(pady=20, ipadx=10, ipady=5)
-        self.botao_teste_proximo_da_mesa.place(x=456, y=240)
+        self.botao_teste_proximo_da_mesa.place(x=0, y=0)
 
         # Transforma lista de players do DogServer em Jogaodres
         players_start_status = ["Jogador Local", "0000", "1"], ["Jogador X    ", "0000", "4"], ["Jogador Y    ", "0000", "2"], ["Jogador Z    ", "0000", "3"]
@@ -56,7 +57,7 @@ class PlayerInterface(DogPlayerInterface):
             self.__jogadores.append(novo_jogador)
 
         # Competencias de jogo
-        self.__jogo = Jogo(self.__jogadores)
+        self.__jogo = Jogo(self, self.__jogadores)
         self.__jogador_local.set_turno(True)
 
         # Cria as posições dos jogadores
@@ -80,7 +81,6 @@ class PlayerInterface(DogPlayerInterface):
                 jogador.jogar_carta(jogador.get_cartas_jogador()[0])
                 self.__jogo.jogar_carta()
                 break
-
 
         self.atualizar_interface()
 
@@ -186,7 +186,7 @@ class PlayerInterface(DogPlayerInterface):
             self.__jogadores.append(novo_jogador)
 
         # Instancia o jogo
-        self.__jogo = Jogo(self.__jogadores)
+        self.__jogo = Jogo(self, self.__jogadores)
 
         # Cria as posições dos jogadores
         for jogador in self.__jogadores:
@@ -223,7 +223,12 @@ class PlayerInterface(DogPlayerInterface):
 
     def atualizar_interface(self):
         for nome, posicao in self.__posicoes.items():
-            posicao.atualizar_interface()
+            posicao.atualizar_posicao()
+
+    def atualizar_interface_com_delay(self):
+        self.atualizar_interface()
+        self.__janela.update()
+        time.sleep(1.5)
 
 
     def get_janela(self):

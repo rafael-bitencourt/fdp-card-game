@@ -2,11 +2,12 @@ import math
 from rodada import Rodada
 
 class Jogo:
-    def __init__(self, jogadores):
+    def __init__(self, player_interface, jogadores):
         print("-> JOGO INICIADO")
+        self.__player_interface = player_interface
         self.__jogadores = jogadores
         self.__numero_da_rodada = 1
-        self.__rodada = Rodada(self.__numero_da_rodada, self.__jogadores)
+        self.__rodada = Rodada(self.__player_interface, self.__jogadores, self.__numero_da_rodada)
         self.__terminou = False
 
     # Jogar carta
@@ -38,7 +39,7 @@ class Jogo:
     # Criar nova rodada
     def criar_rodada(self):
         self.__numero_da_rodada += 1
-        self.__rodada = Rodada(self.__numero_da_rodada, self.__jogadores)
+        self.__rodada = Rodada(self.__player_interface, self.__jogadores, self.__numero_da_rodada)
     
     # Get fim jogo
     def terminou(self):

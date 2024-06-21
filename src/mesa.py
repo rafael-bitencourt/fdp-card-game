@@ -1,7 +1,8 @@
 class Mesa:
-    def __init__(self, jogadores):
+    def __init__(self, player_interface, jogadores):
         print("-> NOVA MESA INICIADA")
         # Atributos da mesa
+        self.__player_interface = player_interface
         self.__jogadores = jogadores
         self.__vencedor_da_mesa = None
         self.__cartas_na_mesa = 0
@@ -15,6 +16,7 @@ class Mesa:
         if self.__cartas_na_mesa == 4:
 
             # Se sim computa vencedor da mesa, incrementa quantas fez e remove cartas jogadas
+            self.__player_interface.atualizar_interface_com_delay()
             self.computar_vencedor_mesa()
             self.incrementar_quantas_fez()
             self.limpar_cartas_jogadas()

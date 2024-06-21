@@ -25,7 +25,7 @@ class Posicao:
         self._label_carta_jogada = None
         self._botoes_cartas_jogador = {}
     
-    def atualizar_interface(self):
+    def atualizar_posicao(self):
         # Atributos do jogador
         self._total_pontos = self._jogador.get_total_pontos()
         self._quantas_disse = self._jogador.get_quantas_disse()
@@ -110,10 +110,31 @@ class PosicaoDireita(Posicao):
         super().__init__(player_interface, jogador)
 
     def imprimir_elementos(self):
+
+        # Imprime label do total de pontos
+        self._label_total_pontos = Label(self._janela, text=str(self._total_pontos), font=("Arial", 34), bg="#D9D9D9")
+        if self._total_pontos < 10:
+            self._label_total_pontos.place(x=933, y=41)
+        else:
+            self._label_total_pontos.place(x=920, y=41)
+
+        # Imprime label de quantas disse
+        self._label_quantas_disse = Label(self._janela, text=str(self._quantas_disse), font=("Arial", 21), bg="#D9D9D9")
+        self._label_quantas_disse.place(x=945, y=124)
+
+        # Imprime label de quantas fez
+        self._label_quantas_fez = Label(self._janela, text=str(self._quantas_fez), font=("Arial", 21), bg="#D9D9D9")
+        self._label_quantas_fez.place(x=945, y=181)
+
         # Cria labels das cartas do jogador
         for carta in self._cartas_jogador:
             label = Label(self._janela, image=self._imagens_cartas["verso de lado"], height=60, width=90)
             self._botoes_cartas_jogador[str(carta)] = label
+
+        # Imprime label da carta jogada
+        if self._carta_jogada:
+            self._label_carta_jogada = Label(self._janela, image=self._imagens_cartas[str(self._carta_jogada)])
+            self._label_carta_jogada.place(x=630, y=325)
     
         # Imprime os labels centralizados
         altura_janela = 850
@@ -130,6 +151,32 @@ class PosicaoCima(Posicao):
         super().__init__(player_interface, jogador)
 
     def imprimir_elementos(self):
+
+        # Imprime label do total de pontos
+        self._label_total_pontos = Label(self._janela, text=str(self._total_pontos), font=("Arial", 34), bg="#D9D9D9")
+        if self._total_pontos < 10:
+            self._label_total_pontos.place(x=54, y=41)
+        else:
+            self._label_total_pontos.place(x=41, y=41)
+
+        # Imprime label de quantas disse
+        self._label_quantas_disse = Label(self._janela, text=str(self._quantas_disse), font=("Arial", 21), bg="#D9D9D9")
+        self._label_quantas_disse.place(x=250, y=19)
+
+        # Imprime label de quantas fez
+        self._label_quantas_fez = Label(self._janela, text=str(self._quantas_fez), font=("Arial", 21), bg="#D9D9D9")
+        self._label_quantas_fez.place(x=250, y=76)
+
+        # Cria labels das cartas do jogador
+        for carta in self._cartas_jogador:
+            label = Label(self._janela, image=self._imagens_cartas["verso de lado"], height=60, width=90)
+            self._botoes_cartas_jogador[str(carta)] = label
+
+        # Imprime label da carta jogada
+        if self._carta_jogada:
+            self._label_carta_jogada = Label(self._janela, image=self._imagens_cartas[str(self._carta_jogada)])
+            self._label_carta_jogada.place(x=470, y=180)
+
         # Cria labels das cartas do jogador
         for carta in self._cartas_jogador:
             label = Label(self._janela, image=self._imagens_cartas["verso"], height=90, width=60)
@@ -150,6 +197,12 @@ class PosicaoEsquerda(Posicao):
         super().__init__(player_interface, jogador)
 
     def imprimir_elementos(self):
+
+        # Imprime label da carta jogada
+        if self._carta_jogada:
+            self._label_carta_jogada = Label(self._janela, image=self._imagens_cartas[str(self._carta_jogada)])
+            self._label_carta_jogada.place(x=300, y=325)
+
         # Cria labels das cartas do jogador
         for carta in self._cartas_jogador:
             label = Label(self._janela, image=self._imagens_cartas["verso de lado"], height=60, width=90)
