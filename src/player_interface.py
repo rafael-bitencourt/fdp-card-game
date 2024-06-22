@@ -78,11 +78,8 @@ class PlayerInterface(DogPlayerInterface):
     def teste_proximo_da_mesa(self):
         for jogador in self.__jogadores:
             if jogador.get_turno() and jogador != self.__jogador_local:
-                jogador.jogar_carta(jogador.get_cartas_jogador()[0])
-                self.__jogo.jogar_carta()
+                self.jogar_carta(jogador, jogador.get_cartas_jogador()[0])
                 break
-
-        self.atualizar_interface()
 
 
     def inicializar(self):
@@ -207,10 +204,12 @@ class PlayerInterface(DogPlayerInterface):
         self.teste()
 
 
-    def jogar_carta(self, carta):
-        self.__jogador_local.jogar_carta(carta)
+    def jogar_carta(self, jogador, carta):
+        jogador.jogar_carta(carta)
         self.__jogo.jogar_carta()
         self.atualizar_interface()
+        #if jogador == self.__jogador_local:
+            #self.__dog_server_interface.send_move(self.__jogadores)
 
         
     def receive_move(self, a_move):
@@ -233,3 +232,6 @@ class PlayerInterface(DogPlayerInterface):
 
     def get_janela(self):
         return self.__janela
+    
+    def get_jogador_local(self):
+        return self.__jogador_local
