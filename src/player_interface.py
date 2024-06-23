@@ -180,6 +180,14 @@ class PlayerInterface(DogPlayerInterface):
         self.__botao_teste.destroy()
         # NAO ESQUECER DE TIRAR NO FINAL
 
+        # NAO ESQUECER DE TIRAR NO FINAL
+        self.botao_proximo_joga_carta = Button(self.__janela, text="Proximo da mesa", command=self.proximo_joga_carta)
+        self.botao_proximo_joga_carta.place(x=0, y=0)
+
+        self.botao_proximo_diz_quantas_faz = Button(self.__janela, text="Proximo diz quantas faz", command=self.proximo_diz_quantas_faz)
+        self.botao_proximo_diz_quantas_faz.place(x=100, y=0)
+        # NAO ESQUECER DE TIRAR NO FINAL
+
         # Transforma lista de players do DogServer em Jogaodres
         players_start_status = start_status.get_players()
         players_start_status.sort(key=lambda x: int(x[2]))
@@ -223,6 +231,14 @@ class PlayerInterface(DogPlayerInterface):
 
         # NAO ESQUECER DE TIRAR NO FINAL
         self.__botao_teste.destroy()
+        # NAO ESQUECER DE TIRAR NO FINAL
+
+        # NAO ESQUECER DE TIRAR NO FINAL
+        self.botao_proximo_joga_carta = Button(self.__janela, text="Proximo da mesa", command=self.proximo_joga_carta)
+        self.botao_proximo_joga_carta.place(x=0, y=0)
+
+        self.botao_proximo_diz_quantas_faz = Button(self.__janela, text="Proximo diz quantas faz", command=self.proximo_diz_quantas_faz)
+        self.botao_proximo_diz_quantas_faz.place(x=100, y=0)
         # NAO ESQUECER DE TIRAR NO FINAL
 
         # Transforma lista de players do DogServer em Jogaodres
@@ -292,6 +308,8 @@ class PlayerInterface(DogPlayerInterface):
             for jogador in self.__jogadores:
                 if jogador.get_nome() == a_move["jogador"]:
                     self.diz_quantas_faz(jogador, int(a_move["quantas_disse"]))
+
+        self.atualizar_interface()
 
     # Aviso de desconexão
     def receive_withdrawal_notification(self):
