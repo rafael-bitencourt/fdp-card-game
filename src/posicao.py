@@ -131,13 +131,28 @@ class PosicaoBaixo(Posicao):
             self._label_menu_quantas_disse = Label(self._janela, image=self._imagem_menu_quantas_disse, borderwidth=0)
             self._label_menu_quantas_disse.place(x=280, y=245)
 
-            for i in range(len(self._jogador.get_cartas_jogador()) + 1):
+            num_botoes = len(self._jogador.get_cartas_jogador()) + 1
+            largura_janela = 1012  # Largura da janela
+            largura_botao = 50     # Largura de cada botão
+            espacamento = 10       # Espaço adicional entre os botões, se necessário
+
+            # Calcula a largura total ocupada pelos botões e o espaçamento entre eles
+            largura_total_botoes = num_botoes * largura_botao + (num_botoes - 1) * espacamento
+        
+            # Calcula a posição x inicial para centralizar os botões
+            x_inicial = (largura_janela - largura_total_botoes) // 2
+
+            for i in range(num_botoes):
                 self._imagens_botoes_quantas_disse.append(PhotoImage(file=f"assets/botoes/diz_{i}.png"))
                 botao = Button(self._janela, image=self._imagens_botoes_quantas_disse[i], command=lambda jogador=self._jogador, i=i: self._player_interface.diz_quantas_faz(jogador, i), borderwidth=0, highlightthickness=0)
                 self._botoes_quantas_disse.append(botao)
+
                 if i == self._player_interface.get_botao_bloqueado():
                     botao["state"] = "disabled"
-                botao.place(x=300 + (i * 50), y=400)
+
+                # Calcula a posição x para cada botão
+                pos_x = x_inicial + i * (largura_botao + espacamento)
+                botao.place(x=pos_x, y=400)
 
 
 class PosicaoDireita(Posicao):
