@@ -11,7 +11,7 @@ class Rodada:
         self.__numero_da_mesa = 1
         self.__mesa = Mesa(self.__player_interface, self.__jogadores)
         self.__baralho = Baralho()
-        self.__baralho.embaralhar()
+        #self.__baralho.embaralhar()
         self.distribuir_cartas()
         self.__terminou = False
 

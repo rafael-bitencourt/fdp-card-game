@@ -17,70 +17,11 @@ class PlayerInterface(DogPlayerInterface):
         self.__posicoes = []
         self.__jogadores = []
         self.__jogador_local = None
-
-        # Interface
-        self.__posicoes = {}
-
-        # DogServer
         self.__dog_server_interface = None
-        self.__jogada_enviada = {}
+        self.__jogada = {}
 
         # Tela de inicio
         self.inicializar()
-
-
-    # NAO ESQUECER DE TIRAR NO FINAL
-    def teste(self):
-
-        print("-> TESTE INICIADO")
-        # Nome do jogador de teste
-        self.__nome = "Jogador Local"
-        
-        #Destroi elementos da tela
-        self.__botao_iniciar.destroy()
-        self.__botao_conectar.destroy()
-        self.__botao_teste.destroy()
-        self.__entrada.destroy()
-        self.__texto.destroy()
-
-        self.botao_teste_proximo_da_mesa = Button(self.__janela, text="Proximo da mesa", command=self.teste_proximo_da_mesa)
-        self.botao_teste_proximo_da_mesa.pack(pady=20, ipadx=10, ipady=5)
-        self.botao_teste_proximo_da_mesa.place(x=0, y=0)
-
-        # Transforma lista de players do DogServer em Jogaodres
-        players_start_status = ["Jogador Local", "0000", "1"], ["Jogador X    ", "0000", "4"], ["Jogador Y    ", "0000", "2"], ["Jogador Z    ", "0000", "3"]
-
-        for player in players_start_status:
-            novo_jogador = Jogador(player)
-            if novo_jogador.get_nome() == self.__nome:
-                self.__jogador_local = novo_jogador
-            self.__jogadores.append(novo_jogador)
-
-        # Competencias de jogo
-        self.__jogo = Jogo(self, self.__jogadores)
-        self.__jogador_local.set_turno(True)
-
-        # Cria as posições dos jogadores
-        for jogador in self.__jogadores:
-            if jogador.get_indice() == self.__jogador_local.get_indice():
-                self.__posicoes["baixo"] = (PosicaoBaixo(self, jogador))
-            elif jogador.get_indice() == (self.__jogador_local.get_indice() % 4 + 1):
-                self.__posicoes["direita"] = (PosicaoDireita(self, jogador))
-            elif jogador.get_indice() == ((self.__jogador_local.get_indice() + 1) % 4 + 1):
-                self.__posicoes["cima"] = (PosicaoCima(self, jogador))
-            elif jogador.get_indice() == ((self.__jogador_local.get_indice() + 2) % 4 + 1):
-                self.__posicoes["esquerda"] = PosicaoEsquerda(self, jogador)
-
-        # Atualiza a interface
-        self.atualizar_interface()
-
-    # NAO ESQUECER DE TIRAR NO FINAL
-    def teste_proximo_da_mesa(self):
-        for jogador in self.__jogadores:
-            if jogador.get_turno() and jogador != self.__jogador_local:
-                self.jogar_carta(jogador, jogador.get_cartas_jogador()[0])
-                break
-
 
     def inicializar(self):
         # Criando a janela
@@ -124,6 +65,58 @@ class PlayerInterface(DogPlayerInterface):
 
         #Loop principal
         self.__janela.mainloop()
+
+
+    # NAO ESQUECER DE TIRAR NO FINAL
+    def teste(self):
+
+        print("-> TESTE INICIADO")
+        # Nome do jogador de teste
+        self.__nome = "Jogador Local"
+        
+        #Destroi elementos da tela
+        self.__botao_iniciar.destroy()
+        self.__botao_conectar.destroy()
+        self.__botao_teste.destroy()
+        self.__entrada.destroy()
+        self.__texto.destroy()
+
+        self.botao_teste_proximo_da_mesa = Button(self.__janela, text="Proximo da mesa", command=self.teste_proximo_da_mesa)
+        self.botao_teste_proximo_da_mesa.pack(pady=20, ipadx=10, ipady=5)
+        self.botao_teste_proximo_da_mesa.place(x=0, y=0)
+
+        # Transforma lista de players do DogServer em Jogaodres
+        players_start_status = ["Jogador Local", "0000", "1"], ["Jogador X    ", "0000", "4"], ["Jogador Y    ", "0000", "2"], ["Jogador Z    ", "0000", "3"]
+
+        for player in players_start_status:
+            novo_jogador = Jogador(player)
+            if novo_jogador.get_nome() == self.__nome:
+                self.__jogador_local = novo_jogador
+            self.__jogadores.append(novo_jogador)
+
+        # Competencias de jogo
+        self.__jogo = Jogo(self, self.__jogadores)
+
+        # Cria as posições dos jogadores
+        for jogador in self.__jogadores:
+            if jogador.get_indice() == self.__jogador_local.get_indice():
+                self.__posicoes.append(PosicaoBaixo(self, jogador))
+            elif jogador.get_indice() == (self.__jogador_local.get_indice() % 4 + 1):
+                self.__posicoes.append(PosicaoDireita(self, jogador))
+            elif jogador.get_indice() == ((self.__jogador_local.get_indice() + 1) % 4 + 1):
+                self.__posicoes.append(PosicaoCima(self, jogador))
+            elif jogador.get_indice() == ((self.__jogador_local.get_indice() + 2) % 4 + 1):
+                self.__posicoes.append(PosicaoEsquerda(self, jogador))
+
+        # Atualiza a interface
+        self.atualizar_interface()
+
+    # NAO ESQUECER DE TIRAR NO FINAL
+    def teste_proximo_da_mesa(self):
+        for jogador in self.__jogadores:
+            if jogador.get_turno() and jogador != self.__jogador_local:
+                self.jogar_carta(jogador, jogador.get_cartas_jogador()[0])
+                break
 
 
     def conectar_servidor(self):
@@ -176,6 +169,7 @@ class PlayerInterface(DogPlayerInterface):
 
         # Transforma lista de players do DogServer em Jogaodres
         players_start_status = start_status.get_players()
+        players_start_status.sort(key=lambda x: int(x[2]))
         for player in players_start_status:
             novo_jogador = Jogador(player)
             if novo_jogador.get_nome() == self.__nome:
@@ -188,32 +182,99 @@ class PlayerInterface(DogPlayerInterface):
         # Cria as posições dos jogadores
         for jogador in self.__jogadores:
             if jogador.get_indice() == self.__jogador_local.get_indice():
-                self.__posicoes["baixo"] = (PosicaoBaixo(self, jogador))
+                self.__posicoes.append(PosicaoBaixo(self, jogador))
             elif jogador.get_indice() == (self.__jogador_local.get_indice() % 4 + 1):
-                self.__posicoes["direita"] = (PosicaoDireita(self, jogador))
+                self.__posicoes.append(PosicaoDireita(self, jogador))
             elif jogador.get_indice() == ((self.__jogador_local.get_indice() + 1) % 4 + 1):
-                self.__posicoes["cima"] = (PosicaoCima(self, jogador))
+                self.__posicoes.append(PosicaoCima(self, jogador))
             elif jogador.get_indice() == ((self.__jogador_local.get_indice() + 2) % 4 + 1):
-                self.__posicoes["esquerda"] = PosicaoEsquerda(self, jogador)
+                self.__posicoes.append(PosicaoEsquerda(self, jogador))
+
+        # NAO ESQUECER DE TIRAR NO FINAL
+        self.botao_teste_proximo_da_mesa = Button(self.__janela, text="Proximo da mesa", command=self.teste_proximo_da_mesa)
+        self.botao_teste_proximo_da_mesa.pack(pady=20, ipadx=10, ipady=5)
+        self.botao_teste_proximo_da_mesa.place(x=0, y=0)
+        # NAO ESQUECER DE TIRAR NO FINAL
 
         # Atualiza a interface
         self.atualizar_interface()
 
 
     def receive_start(self, start_status):
-        self.teste()
+        # Verifica se a partida iniciou corretamente
+        mensagem = start_status.get_message()
+
+        # Retorna a mensagem recebida
+        messagebox.showinfo("Mensagem", mensagem)
+        
+        #Destroi elementos da tela
+        self.__botao_iniciar.destroy()
+        self.__botao_conectar.destroy()
+        self.__entrada.destroy()
+        self.__texto.destroy()
+
+        # NAO ESQUECER DE TIRAR NO FINAL
+        self.__botao_teste.destroy()
+        # NAO ESQUECER DE TIRAR NO FINAL
+
+        # Transforma lista de players do DogServer em Jogaodres
+        players_start_status = start_status.get_players()
+        players_start_status.sort(key=lambda x: int(x[2]))
+        for player in players_start_status:
+            novo_jogador = Jogador(player)
+            if novo_jogador.get_nome() == self.__nome:
+                self.__jogador_local = novo_jogador
+            self.__jogadores.append(novo_jogador)
+
+        # Instancia o jogo
+        self.__jogo = Jogo(self, self.__jogadores)
+
+        # Cria as posições dos jogadores
+        for jogador in self.__jogadores:
+            if jogador.get_indice() == self.__jogador_local.get_indice():
+                self.__posicoes.append(PosicaoBaixo(self, jogador))
+            elif jogador.get_indice() == (self.__jogador_local.get_indice() % 4 + 1):
+                self.__posicoes.append(PosicaoDireita(self, jogador))
+            elif jogador.get_indice() == ((self.__jogador_local.get_indice() + 1) % 4 + 1):
+                self.__posicoes.append(PosicaoCima(self, jogador))
+            elif jogador.get_indice() == ((self.__jogador_local.get_indice() + 2) % 4 + 1):
+                self.__posicoes.append(PosicaoEsquerda(self, jogador))
+
+        # NAO ESQUECER DE TIRAR NO FINAL
+        self.botao_teste_proximo_da_mesa = Button(self.__janela, text="Proximo da mesa", command=self.teste_proximo_da_mesa)
+        self.botao_teste_proximo_da_mesa.pack(pady=20, ipadx=10, ipady=5)
+        self.botao_teste_proximo_da_mesa.place(x=0, y=0)
+        # NAO ESQUECER DE TIRAR NO FINAL
+
+        # Atualiza a interface
+        self.atualizar_interface()
 
 
     def jogar_carta(self, jogador, carta):
         jogador.jogar_carta(carta)
         self.__jogo.jogar_carta()
         self.atualizar_interface()
-        #if jogador == self.__jogador_local:
-            #self.__dog_server_interface.send_move(self.__jogadores)
+        if jogador == self.__jogador_local:
+            self.__jogada["tipo"] = "jogar_carta"
+            self.__jogada["carta"] = str(carta)
+            self.__jogada["jogador"] = jogador.get_nome()
+            self.__jogada["match_status"] = "next"
+            self.__dog_server_interface.send_move(self.__jogada)
 
         
     def receive_move(self, a_move):
-        print(f"O jogador jogou.")
+
+        if a_move == None:
+            return
+        
+        if a_move["tipo"] == "jogar_carta":
+            for jogador in self.__jogadores:
+                if jogador.get_nome() == a_move["jogador"]:
+                    for carta in jogador.get_cartas_jogador():
+                        if str(carta) == a_move["carta"]:
+                            self.jogar_carta(jogador, carta)
+                            break
+        
 
 
     def receive_withdrawal_notification(self):
@@ -221,7 +282,7 @@ class PlayerInterface(DogPlayerInterface):
         
 
     def atualizar_interface(self):
-        for nome, posicao in self.__posicoes.items():
+        for posicao in self.__posicoes:
             posicao.atualizar_posicao()
 
     def atualizar_interface_com_delay(self):

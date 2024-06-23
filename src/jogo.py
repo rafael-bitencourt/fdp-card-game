@@ -7,8 +7,14 @@ class Jogo:
         self.__player_interface = player_interface
         self.__jogadores = jogadores
         self.__numero_da_rodada = 1
+        self.determinar_primeiro_jogador()
         self.__rodada = Rodada(self.__player_interface, self.__jogadores, self.__numero_da_rodada)
         self.__terminou = False
+
+    def determinar_primeiro_jogador(self):
+        for jogador in self.__jogadores:
+            if jogador.get_indice() == 1:
+                jogador.set_turno(True)
 
     # Jogar carta
     def jogar_carta(self):
