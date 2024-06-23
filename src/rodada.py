@@ -26,17 +26,14 @@ class Rodada:
     # Diz quantas faz
     def diz_quantas_faz(self):
         self.__quantos_disseram += 1
-
-        if self.__quantos_disseram == 3:
+        # Verificar fim de diz quantas faz
+        if self.__quantos_disseram == 4:
             for jogador in self.__jogadores:
                 self.__total_dito += jogador.get_quantas_disse()
             self.__player_interface.set_botao_bloqueado(self.__numero_da_rodada - self.__total_dito)
-
-        # Verificar fim de diz quantas faz
-        if self.__quantos_disseram == 4:
-
             # Se sim desabilita inicio de rodada
             self.__player_interface.set_inicio_de_rodada(False)
+            self.__quantos_disseram = 0
 
         # Passa para o próximo jogador
         self.proximo_da_mesa()

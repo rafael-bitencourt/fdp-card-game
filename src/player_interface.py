@@ -30,7 +30,7 @@ class PlayerInterface(DogPlayerInterface):
         self.__janela = Tk()
         self.__janela.geometry("1012x759")
         self.__janela.resizable(False, False)
-        self.__janela.title("Interface Filho da Puta")
+        self.__janela.title("Filho da Puta")
         self.__icone = PhotoImage(file='assets/icone.png')
         self.__janela.iconphoto(True, self.__icone)
 
