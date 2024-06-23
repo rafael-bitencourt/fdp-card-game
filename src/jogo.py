@@ -9,7 +9,6 @@ class Jogo:
         self.__numero_da_rodada = 1
         self.determinar_primeiro_jogador()
         self.__rodada = Rodada(self.__player_interface, self.__jogadores, self.__numero_da_rodada)
-        self.__terminou = False
 
     def determinar_primeiro_jogador(self):
         for jogador in self.__jogadores:
@@ -27,7 +26,7 @@ class Jogo:
         # Verificar fim de jogo
         if self.__rodada.terminou():
             if self.__numero_da_rodada == 7:
-                self.__player_interface.set_fim_de_jogo()
+                self.calcular_placar()
             else:
                 self.criar_rodada()
     
@@ -35,6 +34,16 @@ class Jogo:
     def criar_rodada(self):
         self.__numero_da_rodada += 1
         self.__rodada = Rodada(self.__player_interface, self.__jogadores, self.__numero_da_rodada)
+
+    # Calcular placar
+    def calcular_placar(self):
+        placar = []
+        for jogador in self.__jogadores:
+            placar.append((jogador.get_nome(), jogador.get_total_pontos()))
+        self.__player_interface.set_placar(sorted(placar, key=lambda x: x[1]))
+        
+
+            
 
 
 

@@ -21,7 +21,8 @@ class PlayerInterface(DogPlayerInterface):
         self.__dog_server_interface = None
         self.__inicio_de_rodada = False
         self.__botao_bloqueado = None
-        self.__fim_de_jogo = False
+        self.__placar = []
+        #self.__placar = [("Jogador Local", 2), ("Jogador X    ", 4), ("Jogador Y    ", 6), ("Jogador Z    ", 8)]
         self.__jogada = {}
 
         # Tela de inicio
@@ -258,13 +259,15 @@ class PlayerInterface(DogPlayerInterface):
     def jogar_carta(self, jogador, carta):
         jogador.jogar_carta(carta)
         self.__jogo.jogar_carta()
+        if self.__placar:
+            self.imprimir_placar()
         self.atualizar_interface()
         if jogador == self.__jogador_local:
             self.__jogada["tipo"] = "jogar_carta"
             self.__jogada["carta"] = str(carta)
             self.__jogada["jogador"] = jogador.get_nome()
             self.__jogada["match_status"] = "next"
-            #self.__dog_server_interface.send_move(self.__jogada)
+            self.__dog_server_interface.send_move(self.__jogada)
             self.__jogada = {}
 
     # Diz quantas faz
@@ -277,7 +280,7 @@ class PlayerInterface(DogPlayerInterface):
             self.__jogada["quantas_disse"] = quantas_disse
             self.__jogada["jogador"] = jogador.get_nome()
             self.__jogada["match_status"] = "next"
-            #self.__dog_server_interface.send_move(self.__jogada)
+            self.__dog_server_interface.send_move(self.__jogada)
             self.__jogada = {}
 
     # Receber movimento
@@ -321,10 +324,15 @@ class PlayerInterface(DogPlayerInterface):
         self.atualizar_interface()
         self.__janela.update()
         time.sleep(1.5)
+    
+    # Imprimir placar
+    def imprimir_placar(self):
+        self.__imagem_placar = PhotoImage(file="assets/placar.png")
+        self.__label_placar = Label(self.__janela, image=self.__imagem_placar, borderwidth=0)
+        self.__label_placar.place(x=286, y=225)
 
     def enviar_jogada(self, jogada):
-        #self.__dog_server_interface.send_move(jogada)
-        pass
+        self.__dog_server_interface.send_move(jogada)
 
 
     def get_janela(self):
@@ -349,8 +357,8 @@ class PlayerInterface(DogPlayerInterface):
     def get_jogador_local(self):
         return self.__jogador_local
     
-    def set_fim_de_jogo(self):
-        self.__fim_de_jogo = True
+    def set_placar(self, placar):
+        self.__placar = placar
 
-    def get_fim_de_jogo(self):
-        return self.__fim_de_jogo
+    def get_placar(self):
+        return self.__placar

@@ -53,10 +53,15 @@ class Posicao:
         self._label_carta_jogada = None
         self._botoes_cartas_jogador = {}
 
-        if self._player_interface.get_fim_de_jogo():
-            # Exibe tela de fim de jogo
-            ...
-
+        if self._player_interface.get_placar():
+            placar = self._player_interface.get_placar()
+            for i in range(4):
+                if placar[i][0] == self._jogador.get_nome():
+                    text = f"({placar[i][1]}pts) {placar[i][0]}"
+                    self._label_colocacao = Label(self._janela, text=text, font=("Arial", 18, "bold"), bg="#D9D9D9", fg="#782359")
+                    self._label_colocacao.place(x=523, y=329 + 47 * i, anchor="center")
+            
+                
         # Atualiza elementos da interface
         else:
             self.imprimir_elementos()
@@ -78,18 +83,18 @@ class PosicaoBaixo(Posicao):
         
     def imprimir_elementos(self):
         # Imprime label do total de pontos
-        self._label_total_pontos = Label(self._janela, text=str(self._total_pontos), font=("Arial", 34), bg="#D9D9D9")
+        self._label_total_pontos = Label(self._janela, text=str(self._total_pontos), font=("Arial", 31, "bold"), bg="#D9D9D9", fg="#782359")
         if self._total_pontos < 10:
-            self._label_total_pontos.place(x=932, y=664)
+            self._label_total_pontos.place(x=934, y=666)
         else:
-            self._label_total_pontos.place(x=919, y=664)
+            self._label_total_pontos.place(x=922, y=664)
 
         # Imprime label de quantas disse
-        self._label_quantas_disse = Label(self._janela, text=str(self._quantas_disse), font=("Arial", 21), bg="#D9D9D9")
+        self._label_quantas_disse = Label(self._janela, text=str(self._quantas_disse), font=("Arial", 20, "bold"), bg="#D9D9D9", fg="#782359")
         self._label_quantas_disse.place(x=846, y=645)
 
         # Imprime label de quantas fez
-        self._label_quantas_fez = Label(self._janela, text=str(self._quantas_fez), font=("Arial", 21), bg="#D9D9D9")
+        self._label_quantas_fez = Label(self._janela, text=str(self._quantas_fez), font=("Arial", 20, "bold"), bg="#D9D9D9", fg="#782359")
         self._label_quantas_fez.place(x=846, y=702)
 
         # Imprime label da carta jogada
@@ -152,7 +157,7 @@ class PosicaoBaixo(Posicao):
 
                 # Calcula a posição x para cada botão
                 pos_x = x_inicial + i * (largura_botao + espacamento)
-                botao.place(x=pos_x, y=400)
+                botao.place(x=pos_x, y=440)
 
 
 class PosicaoDireita(Posicao):
@@ -161,18 +166,18 @@ class PosicaoDireita(Posicao):
 
     def imprimir_elementos(self):
         # Imprime label do total de pontos
-        self._label_total_pontos = Label(self._janela, text=str(self._total_pontos), font=("Arial", 34), bg="#D9D9D9")
+        self._label_total_pontos = Label(self._janela, text=str(self._total_pontos), font=("Arial", 31, "bold"), bg="#D9D9D9", fg="#782359")
         if self._total_pontos < 10:
-            self._label_total_pontos.place(x=933, y=41)
+            self._label_total_pontos.place(x=933, y=43)
         else:
-            self._label_total_pontos.place(x=920, y=41)
+            self._label_total_pontos.place(x=923, y=41)
 
         # Imprime label de quantas disse
-        self._label_quantas_disse = Label(self._janela, text=str(self._quantas_disse), font=("Arial", 21), bg="#D9D9D9")
+        self._label_quantas_disse = Label(self._janela, text=str(self._quantas_disse), font=("Arial", 20, "bold"), bg="#D9D9D9", fg="#782359")
         self._label_quantas_disse.place(x=945, y=124)
 
         # Imprime label de quantas fez
-        self._label_quantas_fez = Label(self._janela, text=str(self._quantas_fez), font=("Arial", 21), bg="#D9D9D9")
+        self._label_quantas_fez = Label(self._janela, text=str(self._quantas_fez), font=("Arial", 20, "bold"), bg="#D9D9D9", fg="#782359")
         self._label_quantas_fez.place(x=945, y=181)
 
         # Cria labels das cartas do jogador
@@ -201,18 +206,18 @@ class PosicaoCima(Posicao):
 
     def imprimir_elementos(self):
         # Imprime label do total de pontos
-        self._label_total_pontos = Label(self._janela, text=str(self._total_pontos), font=("Arial", 34), bg="#D9D9D9")
+        self._label_total_pontos = Label(self._janela, text=str(self._total_pontos), font=("Arial", 31, "bold"), bg="#D9D9D9", fg="#782359")
         if self._total_pontos < 10:
-            self._label_total_pontos.place(x=54, y=41)
+            self._label_total_pontos.place(x=54, y=42)
         else:
-            self._label_total_pontos.place(x=41, y=41)
+            self._label_total_pontos.place(x=43, y=41)
 
         # Imprime label de quantas disse
-        self._label_quantas_disse = Label(self._janela, text=str(self._quantas_disse), font=("Arial", 21), bg="#D9D9D9")
+        self._label_quantas_disse = Label(self._janela, text=str(self._quantas_disse), font=("Arial", 20, "bold"), bg="#D9D9D9", fg="#782359")
         self._label_quantas_disse.place(x=250, y=19)
 
         # Imprime label de quantas fez
-        self._label_quantas_fez = Label(self._janela, text=str(self._quantas_fez), font=("Arial", 21), bg="#D9D9D9")
+        self._label_quantas_fez = Label(self._janela, text=str(self._quantas_fez), font=("Arial", 20, "bold"), bg="#D9D9D9", fg="#782359")
         self._label_quantas_fez.place(x=250, y=76)
 
         # Cria labels das cartas do jogador
@@ -246,18 +251,18 @@ class PosicaoEsquerda(Posicao):
 
     def imprimir_elementos(self):
         # Imprime label do total de pontos
-        self._label_total_pontos = Label(self._janela, text=str(self._total_pontos), font=("Arial", 34), bg="#D9D9D9")
+        self._label_total_pontos = Label(self._janela, text=str(self._total_pontos), font=("Arial", 31, "bold"), bg="#D9D9D9", fg="#782359")
         if self._total_pontos < 10:
-            self._label_total_pontos.place(x=52, y=669)
+            self._label_total_pontos.place(x=53, y=671)
         else:
-            self._label_total_pontos.place(x=39, y=669)
+            self._label_total_pontos.place(x=42, y=669)
 
         # Imprime label de quantas disse
-        self._label_quantas_disse = Label(self._janela, text=str(self._quantas_disse), font=("Arial", 21), bg="#D9D9D9")
+        self._label_quantas_disse = Label(self._janela, text=str(self._quantas_disse), font=("Arial", 20, "bold"), bg="#D9D9D9", fg="#782359")
         self._label_quantas_disse.place(x=140, y=544)
 
         # Imprime label de quantas fez
-        self._label_quantas_fez = Label(self._janela, text=str(self._quantas_fez), font=("Arial", 21), bg="#D9D9D9")
+        self._label_quantas_fez = Label(self._janela, text=str(self._quantas_fez), font=("Arial", 20, "bold"), bg="#D9D9D9", fg="#782359")
         self._label_quantas_fez.place(x=140, y=601)
 
         # Imprime label da carta jogada
