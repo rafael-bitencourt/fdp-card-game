@@ -53,8 +53,13 @@ class Posicao:
         self._label_carta_jogada = None
         self._botoes_cartas_jogador = {}
 
+        if self._player_interface.get_fim_de_jogo():
+            # Exibe tela de fim de jogo
+            ...
+
         # Atualiza elementos da interface
-        self.imprimir_elementos()
+        else:
+            self.imprimir_elementos()
 
     def imprimir_elementos(self):
         pass

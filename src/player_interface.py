@@ -4,6 +4,7 @@ import time
 
 from dog.dog_interface import DogPlayerInterface
 from dog.dog_actor import DogActor
+from carta import Carta
 
 from jogador import Jogador
 from jogo import Jogo
@@ -20,6 +21,7 @@ class PlayerInterface(DogPlayerInterface):
         self.__dog_server_interface = None
         self.__inicio_de_rodada = False
         self.__botao_bloqueado = None
+        self.__fim_de_jogo = False
         self.__jogada = {}
 
         # Tela de inicio
@@ -180,14 +182,6 @@ class PlayerInterface(DogPlayerInterface):
         self.__botao_teste.destroy()
         # NAO ESQUECER DE TIRAR NO FINAL
 
-        # NAO ESQUECER DE TIRAR NO FINAL
-        self.botao_proximo_joga_carta = Button(self.__janela, text="Proximo da mesa", command=self.proximo_joga_carta)
-        self.botao_proximo_joga_carta.place(x=0, y=0)
-
-        self.botao_proximo_diz_quantas_faz = Button(self.__janela, text="Proximo diz quantas faz", command=self.proximo_diz_quantas_faz)
-        self.botao_proximo_diz_quantas_faz.place(x=100, y=0)
-        # NAO ESQUECER DE TIRAR NO FINAL
-
         # Transforma lista de players do DogServer em Jogaodres
         players_start_status = start_status.get_players()
         players_start_status.sort(key=lambda x: int(x[2]))
@@ -233,14 +227,6 @@ class PlayerInterface(DogPlayerInterface):
         self.__botao_teste.destroy()
         # NAO ESQUECER DE TIRAR NO FINAL
 
-        # NAO ESQUECER DE TIRAR NO FINAL
-        self.botao_proximo_joga_carta = Button(self.__janela, text="Proximo da mesa", command=self.proximo_joga_carta)
-        self.botao_proximo_joga_carta.place(x=0, y=0)
-
-        self.botao_proximo_diz_quantas_faz = Button(self.__janela, text="Proximo diz quantas faz", command=self.proximo_diz_quantas_faz)
-        self.botao_proximo_diz_quantas_faz.place(x=100, y=0)
-        # NAO ESQUECER DE TIRAR NO FINAL
-
         # Transforma lista de players do DogServer em Jogaodres
         players_start_status = start_status.get_players()
         players_start_status.sort(key=lambda x: int(x[2]))
@@ -278,7 +264,7 @@ class PlayerInterface(DogPlayerInterface):
             self.__jogada["carta"] = str(carta)
             self.__jogada["jogador"] = jogador.get_nome()
             self.__jogada["match_status"] = "next"
-            self.__dog_server_interface.send_move(self.__jogada)
+            #self.__dog_server_interface.send_move(self.__jogada)
             self.__jogada = {}
 
     # Diz quantas faz
@@ -291,7 +277,7 @@ class PlayerInterface(DogPlayerInterface):
             self.__jogada["quantas_disse"] = quantas_disse
             self.__jogada["jogador"] = jogador.get_nome()
             self.__jogada["match_status"] = "next"
-            self.__dog_server_interface.send_move(self.__jogada)
+            #self.__dog_server_interface.send_move(self.__jogada)
             self.__jogada = {}
 
     # Receber movimento
@@ -308,6 +294,15 @@ class PlayerInterface(DogPlayerInterface):
             for jogador in self.__jogadores:
                 if jogador.get_nome() == a_move["jogador"]:
                     self.diz_quantas_faz(jogador, int(a_move["quantas_disse"]))
+
+        elif a_move["tipo"] == "distribuir_cartas":
+            for jogador in self.__jogadores:
+                cartas = []
+                strings_cartas = a_move[jogador.get_nome()]
+                for string in strings_cartas:
+                    valor, naipe = string.split(" ")
+                    cartas.append(Carta(valor, naipe))
+                jogador.set_cartas_jogador(cartas)
 
         self.atualizar_interface()
 
@@ -326,6 +321,10 @@ class PlayerInterface(DogPlayerInterface):
         self.atualizar_interface()
         self.__janela.update()
         time.sleep(1.5)
+
+    def enviar_jogada(self, jogada):
+        #self.__dog_server_interface.send_move(jogada)
+        pass
 
 
     def get_janela(self):
@@ -346,3 +345,12 @@ class PlayerInterface(DogPlayerInterface):
     
     def set_botao_bloqueado(self, botao_bloqueado):
         self.__botao_bloqueado = botao_bloqueado
+
+    def get_jogador_local(self):
+        return self.__jogador_local
+    
+    def set_fim_de_jogo(self):
+        self.__fim_de_jogo = True
+
+    def get_fim_de_jogo(self):
+        return self.__fim_de_jogo

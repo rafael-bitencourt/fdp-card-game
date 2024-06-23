@@ -2,7 +2,7 @@ class Jogador():
     def __init__(self, player):
         self.__nome = player[0]
         self.__indice = int(player[2])
-        self.__cartas_jogador = None
+        self.__cartas_jogador = []
         self.__turno = False
         self.__quantas_disse = 0
         self.__quantas_fez = 0

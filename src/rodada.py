@@ -8,29 +8,48 @@ class Rodada:
         self.__player_interface = player_interface
         self.__numero_da_rodada = numero_da_rodada
         self.__player_interface.set_inicio_de_rodada(True)
+        self.__player_interface.set_botao_bloqueado(None)
         self.__quantos_disseram = 0
         self.__total_dito = 0
         self.__jogadores = jogadores
         self.__numero_da_mesa = 1
         self.__mesa = Mesa(self.__player_interface, self.__jogadores)
-        self.__baralho = Baralho()
-        #self.__baralho.embaralhar()
-        self.distribuir_cartas()
         self.__terminou = False
+
+        for jogador in self.__jogadores:
+            if jogador.get_turno():
+                break
+
+        #if jogador == self.__player_interface.get_jogador_local():
+        if True:
+            self.__baralho = Baralho()
+            self.__baralho.embaralhar()
+            self.distribuir_cartas()
 
     # Distribuir cartas
     def distribuir_cartas(self):
+        jogada = {}
+        jogada["tipo"] = "distribuir_cartas"
+        jogada["match_status"] = "progress"
         for jogador in self.__jogadores:
+            strings_cartas = []
             jogador.set_cartas_jogador(self.__baralho.retirar_cartas(self.__numero_da_rodada))
+            for carta in jogador.get_cartas_jogador():
+                strings_cartas.append(str(carta))
+            jogada[jogador.get_nome()] = strings_cartas
+        self.__player_interface.enviar_jogada(jogada)
 
     # Diz quantas faz
     def diz_quantas_faz(self):
         self.__quantos_disseram += 1
-        # Verificar fim de diz quantas faz
-        if self.__quantos_disseram == 4:
+        print(f"-> {self.__quantos_disseram} jogadores disseram quantas faz")
+        # Bloquear botão diz quantas faz
+        if self.__quantos_disseram == 3:
             for jogador in self.__jogadores:
                 self.__total_dito += jogador.get_quantas_disse()
             self.__player_interface.set_botao_bloqueado(self.__numero_da_rodada - self.__total_dito)
+        # Verificar fim de diz quantas faz
+        if self.__quantos_disseram == 4:
             # Se sim desabilita inicio de rodada
             self.__player_interface.set_inicio_de_rodada(False)
             self.__quantos_disseram = 0
