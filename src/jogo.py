@@ -16,6 +16,10 @@ class Jogo:
             if jogador.get_indice() == 1:
                 jogador.set_turno(True)
 
+    # Diz qunatas faz
+    def diz_quantas_faz(self):
+        self.__rodada.diz_quantas_faz()
+
     # Jogar carta
     def jogar_carta(self):
         self.__rodada.jogar_carta()

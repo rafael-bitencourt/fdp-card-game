@@ -7,11 +7,14 @@ class Rodada:
         # Atributos da rodada
         self.__player_interface = player_interface
         self.__numero_da_rodada = numero_da_rodada
+        self.__player_interface.set_inicio_de_rodada(True)
+        self.__quantos_disseram = 0
+        self.__total_dito = 0
         self.__jogadores = jogadores
         self.__numero_da_mesa = 1
         self.__mesa = Mesa(self.__player_interface, self.__jogadores)
         self.__baralho = Baralho()
-        #self.__baralho.embaralhar()
+        self.__baralho.embaralhar()
         self.distribuir_cartas()
         self.__terminou = False
 
@@ -19,6 +22,38 @@ class Rodada:
     def distribuir_cartas(self):
         for jogador in self.__jogadores:
             jogador.set_cartas_jogador(self.__baralho.retirar_cartas(self.__numero_da_rodada))
+
+    # Diz quantas faz
+    def diz_quantas_faz(self):
+        self.__quantos_disseram += 1
+
+        if self.__quantos_disseram == 3:
+            for jogador in self.__jogadores:
+                self.__total_dito += jogador.get_quantas_disse()
+            self.__player_interface.set_botao_bloqueado(self.__numero_da_rodada - self.__total_dito)
+
+        # Verificar fim de diz quantas faz
+        if self.__quantos_disseram == 4:
+
+            # Se sim desabilita inicio de rodada
+            self.__player_interface.set_inicio_de_rodada(False)
+
+        # Passa para o próximo jogador
+        self.proximo_da_mesa()
+
+    # Calcular proximo da mesa
+    def proximo_da_mesa(self):
+
+        for atual in self.__jogadores:
+            if atual.get_turno():
+                atual.set_turno(False)
+                break
+
+        for proximo in self.__jogadores:
+            if proximo.get_indice() == ((atual.get_indice() % 4) + 1):
+                proximo.set_turno(True)
+                break
+
 
     # Jogar carta
     def jogar_carta(self):

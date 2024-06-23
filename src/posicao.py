@@ -63,6 +63,13 @@ class Posicao:
 class PosicaoBaixo(Posicao):
     def __init__(self, player_interface, jogador):
         super().__init__(player_interface, jogador)
+        # Imagens do menu quantas disse
+        self._imagem_menu_quantas_disse = PhotoImage(file="assets/menu_quantas_disse.png")
+        self._label_menu_quantas_disse = None
+        self._imagens_botoes_quantas_disse = []
+        for i in range (8):
+            self._imagens_botoes_quantas_disse.append(PhotoImage(file=f"assets/botoes/diz_{i}.png"))
+        self._botoes_quantas_disse = []
         
     def imprimir_elementos(self):
         # Imprime label do total de pontos
@@ -91,7 +98,10 @@ class PosicaoBaixo(Posicao):
             self._botoes_cartas_jogador[str(carta)] = botao
 
         # Estado dos botoes
-        estado = "normal" if self._jogador.get_turno() else "disabled"
+        if self._jogador.get_turno() and not self._player_interface.get_inicio_de_rodada():
+            estado = "normal" 
+        else:
+            estado = "disabled"
 
         # Imprime os botoes centralizados
         largura_janela = 990
@@ -102,6 +112,27 @@ class PosicaoBaixo(Posicao):
             x = x_inicial + i * largura_carta
             botao["state"] = estado
             botao.place(x=x, y=635)
+
+        # Exclui menu_quantas_disse
+        if self._label_menu_quantas_disse:
+            self._label_menu_quantas_disse.destroy()
+        if self._botoes_quantas_disse:
+            for botao in self._botoes_quantas_disse:
+                botao.destroy()
+        self._botoes_quantas_disse = []
+
+        # Imprime menu_quantas_disse
+        if self._jogador.get_turno() and self._player_interface.get_inicio_de_rodada():
+            self._label_menu_quantas_disse = Label(self._janela, image=self._imagem_menu_quantas_disse, borderwidth=0)
+            self._label_menu_quantas_disse.place(x=280, y=245)
+
+            for i in range(len(self._jogador.get_cartas_jogador()) + 1):
+                self._imagens_botoes_quantas_disse.append(PhotoImage(file=f"assets/botoes/diz_{i}.png"))
+                botao = Button(self._janela, image=self._imagens_botoes_quantas_disse[i], command=lambda jogador=self._jogador, i=i: self._player_interface.diz_quantas_faz(jogador, i), borderwidth=0, highlightthickness=0)
+                self._botoes_quantas_disse.append(botao)
+                if i == self._player_interface.get_botao_bloqueado():
+                    botao["state"] = "disabled"
+                botao.place(x=300 + (i * 50), y=400)
 
 
 class PosicaoDireita(Posicao):

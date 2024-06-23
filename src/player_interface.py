@@ -18,6 +18,8 @@ class PlayerInterface(DogPlayerInterface):
         self.__jogadores = []
         self.__jogador_local = None
         self.__dog_server_interface = None
+        self.__inicio_de_rodada = False
+        self.__botao_bloqueado = None
         self.__jogada = {}
 
         # Tela de inicio
@@ -81,10 +83,6 @@ class PlayerInterface(DogPlayerInterface):
         self.__entrada.destroy()
         self.__texto.destroy()
 
-        self.botao_teste_proximo_da_mesa = Button(self.__janela, text="Proximo da mesa", command=self.teste_proximo_da_mesa)
-        self.botao_teste_proximo_da_mesa.pack(pady=20, ipadx=10, ipady=5)
-        self.botao_teste_proximo_da_mesa.place(x=0, y=0)
-
         # Transforma lista de players do DogServer em Jogaodres
         players_start_status = ["Jogador Local", "0000", "1"], ["Jogador X    ", "0000", "4"], ["Jogador Y    ", "0000", "2"], ["Jogador Z    ", "0000", "3"]
 
@@ -108,14 +106,28 @@ class PlayerInterface(DogPlayerInterface):
             elif jogador.get_indice() == ((self.__jogador_local.get_indice() + 2) % 4 + 1):
                 self.__posicoes.append(PosicaoEsquerda(self, jogador))
 
+        # NAO ESQUECER DE TIRAR NO FINAL
+        self.botao_proximo_joga_carta = Button(self.__janela, text="Proximo da mesa", command=self.proximo_joga_carta)
+        self.botao_proximo_joga_carta.place(x=0, y=0)
+
+        self.botao_proximo_diz_quantas_faz = Button(self.__janela, text="Proximo diz quantas faz", command=self.proximo_diz_quantas_faz)
+        self.botao_proximo_diz_quantas_faz.place(x=100, y=0)
+        # NAO ESQUECER DE TIRAR NO FINAL
+
         # Atualiza a interface
         self.atualizar_interface()
 
     # NAO ESQUECER DE TIRAR NO FINAL
-    def teste_proximo_da_mesa(self):
+    def proximo_joga_carta(self):
         for jogador in self.__jogadores:
             if jogador.get_turno() and jogador != self.__jogador_local:
                 self.jogar_carta(jogador, jogador.get_cartas_jogador()[0])
+                break
+
+    def proximo_diz_quantas_faz(self):
+        for jogador in self.__jogadores:
+            if jogador.get_turno() and jogador != self.__jogador_local:
+                self.diz_quantas_faz(jogador, 1)
                 break
 
 
@@ -140,6 +152,7 @@ class PlayerInterface(DogPlayerInterface):
             self.__botao_conectar.place(x=440, y=455)
 
 
+    # Iniciar partida
     def start_match(self):
         # Verifica se o jogador está conectado
         if self.__dog_server_interface == None:
@@ -190,16 +203,11 @@ class PlayerInterface(DogPlayerInterface):
             elif jogador.get_indice() == ((self.__jogador_local.get_indice() + 2) % 4 + 1):
                 self.__posicoes.append(PosicaoEsquerda(self, jogador))
 
-        # NAO ESQUECER DE TIRAR NO FINAL
-        self.botao_teste_proximo_da_mesa = Button(self.__janela, text="Proximo da mesa", command=self.teste_proximo_da_mesa)
-        self.botao_teste_proximo_da_mesa.pack(pady=20, ipadx=10, ipady=5)
-        self.botao_teste_proximo_da_mesa.place(x=0, y=0)
-        # NAO ESQUECER DE TIRAR NO FINAL
-
         # Atualiza a interface
         self.atualizar_interface()
 
 
+    # Receber início
     def receive_start(self, start_status):
         # Verifica se a partida iniciou corretamente
         mensagem = start_status.get_message()
@@ -240,16 +248,11 @@ class PlayerInterface(DogPlayerInterface):
             elif jogador.get_indice() == ((self.__jogador_local.get_indice() + 2) % 4 + 1):
                 self.__posicoes.append(PosicaoEsquerda(self, jogador))
 
-        # NAO ESQUECER DE TIRAR NO FINAL
-        self.botao_teste_proximo_da_mesa = Button(self.__janela, text="Proximo da mesa", command=self.teste_proximo_da_mesa)
-        self.botao_teste_proximo_da_mesa.pack(pady=20, ipadx=10, ipady=5)
-        self.botao_teste_proximo_da_mesa.place(x=0, y=0)
-        # NAO ESQUECER DE TIRAR NO FINAL
-
         # Atualiza a interface
         self.atualizar_interface()
 
 
+    # Jogar carta
     def jogar_carta(self, jogador, carta):
         jogador.jogar_carta(carta)
         self.__jogo.jogar_carta()
@@ -260,13 +263,23 @@ class PlayerInterface(DogPlayerInterface):
             self.__jogada["jogador"] = jogador.get_nome()
             self.__jogada["match_status"] = "next"
             self.__dog_server_interface.send_move(self.__jogada)
+            self.__jogada = {}
 
-        
+    # Diz quantas faz
+    def diz_quantas_faz(self, jogador, quantas_disse):
+        jogador.set_quantas_disse(quantas_disse)
+        self.__jogo.diz_quantas_faz()
+        self.atualizar_interface()
+        if jogador == self.__jogador_local:
+            self.__jogada["tipo"] = "diz_quantas_faz"
+            self.__jogada["quantas_disse"] = quantas_disse
+            self.__jogada["jogador"] = jogador.get_nome()
+            self.__jogada["match_status"] = "next"
+            self.__dog_server_interface.send_move(self.__jogada)
+            self.__jogada = {}
+
+    # Receber movimento
     def receive_move(self, a_move):
-
-        if a_move == None:
-            return
-        
         if a_move["tipo"] == "jogar_carta":
             for jogador in self.__jogadores:
                 if jogador.get_nome() == a_move["jogador"]:
@@ -274,17 +287,23 @@ class PlayerInterface(DogPlayerInterface):
                         if str(carta) == a_move["carta"]:
                             self.jogar_carta(jogador, carta)
                             break
-        
 
+        elif a_move["tipo"] == "diz_quantas_faz":
+            for jogador in self.__jogadores:
+                if jogador.get_nome() == a_move["jogador"]:
+                    self.diz_quantas_faz(jogador, int(a_move["quantas_disse"]))
 
+    # Aviso de desconexão
     def receive_withdrawal_notification(self):
-        print("O jogador desistiu do jogo")
+        messagebox.showinfo("Mensagem", "O oponente se desconectou")
+        self.__janela.destroy()
         
-
+    # Atualiza a interface
     def atualizar_interface(self):
         for posicao in self.__posicoes:
             posicao.atualizar_posicao()
 
+    # Atualiza a interface com delay
     def atualizar_interface_com_delay(self):
         self.atualizar_interface()
         self.__janela.update()
@@ -294,5 +313,18 @@ class PlayerInterface(DogPlayerInterface):
     def get_janela(self):
         return self.__janela
     
+
     def get_jogador_local(self):
         return self.__jogador_local
+    
+    def get_inicio_de_rodada(self):
+        return self.__inicio_de_rodada
+    
+    def set_inicio_de_rodada(self, inicio_de_rodada):
+        self.__inicio_de_rodada = inicio_de_rodada
+
+    def get_botao_bloqueado(self):
+        return self.__botao_bloqueado
+    
+    def set_botao_bloqueado(self, botao_bloqueado):
+        self.__botao_bloqueado = botao_bloqueado
