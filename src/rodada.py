@@ -20,8 +20,7 @@ class Rodada:
             if jogador.get_turno():
                 break
 
-        #if jogador == self.__player_interface.get_jogador_local():
-        if True:
+        if jogador == self.__player_interface.get_jogador_local():
             self.__baralho = Baralho()
             self.__baralho.embaralhar()
             self.distribuir_cartas()

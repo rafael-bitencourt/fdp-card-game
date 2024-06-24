@@ -59,8 +59,7 @@ class Posicao:
                 if placar[i][0] == self._jogador.get_nome():
                     text = f"({placar[i][1]}pts) {placar[i][0]}"
                     self._label_colocacao = Label(self._janela, text=text, font=("Arial", 18, "bold"), bg="#D9D9D9", fg="#782359")
-                    self._label_colocacao.place(x=523, y=329 + 47 * i, anchor="center")
-            
+                    self._label_colocacao.place(x=519, y=329 + 47 * i, anchor="center")
                 
         # Atualiza elementos da interface
         else:
