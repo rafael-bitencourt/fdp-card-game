@@ -1,26 +1,29 @@
-from src.carta import Carta
+from carta import Carta
 import random
 
 class Baralho:
     def __init__(self):
-        self.cartas = []
+        self.__cartas = []
+        self.criar_baralho()
     
-
+    def get_cartas(self):
+        return self.__cartas
+    
     def criar_baralho(self):
         naipes = ["copas", "espadas", "ouros", "paus"]
-        valores = [2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14]
+        valores = ["A", "3", "2", "K", "Q", "J", "7", "6", "5", "4"]
 
-        for naipe in naipes:
-            for valor in valores:
-                self.cartas.append(Carta(valor, naipe))
+        for valor in valores:
+            for naipe in naipes:
+                self.__cartas.append(Carta(valor, naipe))
     
 
     def embaralhar(self):
-        random.shuffle(self.cartas)
+        random.shuffle(self.__cartas)
     
 
-    def dar_cartas(self, quantidade):
+    def retirar_cartas(self, quantidade):
         cartas = []
         for _ in range(quantidade):
-            cartas.append(self.cartas.pop())
+            cartas.append(self.__cartas.pop())
         return cartas
