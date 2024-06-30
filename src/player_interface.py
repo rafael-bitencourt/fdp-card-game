@@ -216,7 +216,7 @@ class PlayerInterface(DogPlayerInterface):
         jogador.jogar_carta(carta)
 
         # Adiciona carta na mesa e na logica do jogo
-        self.__jogo.jogar_carta()
+        self.__jogo.jogar_carta(jogador)
 
         # Verifica se a partida acabou
         if self.__placar:
