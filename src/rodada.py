@@ -1,5 +1,6 @@
 from baralho import Baralho
 from mesa import Mesa
+import time
 
 class Rodada:
     def __init__(self, player_interface, jogadores, numero_da_rodada):
@@ -27,6 +28,7 @@ class Rodada:
 
     # Distribuir cartas
     def distribuir_cartas(self):
+        time.sleep(1)
         jogada = {}
         jogada["tipo"] = "distribuir_cartas"
         jogada["match_status"] = "progress"

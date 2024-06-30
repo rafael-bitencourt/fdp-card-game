@@ -55,7 +55,7 @@ class Jogador():
         self.__carta_jogada = carta
     
     def jogar_carta(self, carta):
-        print(f"{self.__nome} jogou a carta {carta}")
+        print(f"{self.__nome} jogou a carta {carta.get_nome()}")
         self.__carta_jogada = carta
         for carta in self.__cartas_jogador:
             if carta.get_nome() == self.__carta_jogada.get_nome():

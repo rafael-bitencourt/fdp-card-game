@@ -197,21 +197,6 @@ class PlayerInterface(DogPlayerInterface):
     # Jogar carta
     def jogar_carta(self, jogador, carta):
 
-        # Adiciona carta jogada e remove carta da mao do jogador
-        jogador.jogar_carta(carta)
-
-        # Adiciona carta na mesa e na logica do jogo
-        self.__jogo.jogar_carta()
-
-        # Verifica se a partida acabou
-        if self.__placar:
-
-            # Imprime o fundo do placar
-            self.imprimir_placar()
-
-        # Atualiza a interface
-        self.atualizar_interface()
-
         # Verifica foi o jogador local que jogou
         if jogador == self.__jogador_local:
 
@@ -226,6 +211,21 @@ class PlayerInterface(DogPlayerInterface):
 
             # Limpa a jogada
             self.__jogada = {}
+
+        # Adiciona carta jogada e remove carta da mao do jogador
+        jogador.jogar_carta(carta)
+
+        # Adiciona carta na mesa e na logica do jogo
+        self.__jogo.jogar_carta()
+
+        # Verifica se a partida acabou
+        if self.__placar:
+
+            # Imprime o fundo do placar
+            self.imprimir_placar()
+
+        # Atualiza a interface
+        self.atualizar_interface()
 
 
     # Diz quantas faz
@@ -275,7 +275,7 @@ class PlayerInterface(DogPlayerInterface):
                             break
 
         # Verifica se um jogador disse quantas faz
-        elif a_move["tipo"] == "diz_quantas_faz":
+        if a_move["tipo"] == "diz_quantas_faz":
 
             # Identifica o jogador responsavel
             for jogador in self.__jogadores:
@@ -285,7 +285,7 @@ class PlayerInterface(DogPlayerInterface):
                     self.diz_quantas_faz(jogador, int(a_move["quantas_disse"]))
 
         # Verifica se um jogador distribuiu cartas
-        elif a_move["tipo"] == "distribuir_cartas":
+        if a_move["tipo"] == "distribuir_cartas":
 
             # Percorre os jogadores
             for jogador in self.__jogadores:
@@ -300,8 +300,8 @@ class PlayerInterface(DogPlayerInterface):
                 # Adiciona as cartas ao jogador
                 jogador.set_cartas_jogador(cartas)
 
-            # Atualiza a interface
-            self.atualizar_interface()
+        # Atualiza a interface
+        self.atualizar_interface()
 
 
     # Receber notificação de desistencia
