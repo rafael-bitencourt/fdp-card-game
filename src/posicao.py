@@ -1,3 +1,4 @@
+from baralho import Baralho
 from tkinter import *
 
 class Posicao:
@@ -9,12 +10,10 @@ class Posicao:
 
         # Dicionário de imagens das cartas
         self._imagens_cartas = {}
-        naipes = ["copas", "espadas", "ouros", "paus"]
-        valores = ["A", "3", "2", "K", "Q", "J", "7", "6", "5", "4"]
-        for valor in valores:
-            for naipe in naipes:
-                path = f"assets/cartas/{valor} {naipe}.png"
-                self._imagens_cartas[f"{valor} {naipe}"] = PhotoImage(file=path)
+        cartas = Baralho().get_cartas()
+        for carta in cartas:
+            path = f"assets/cartas/{carta.get_nome()}.png"
+            self._imagens_cartas[carta.get_nome()] = PhotoImage(file=path)
         self._imagens_cartas["verso"] = PhotoImage(file="assets/cartas/verso.png")
         self._imagens_cartas["verso de lado"] = PhotoImage(file="assets/cartas/verso de lado.png")
 
@@ -98,13 +97,13 @@ class PosicaoBaixo(Posicao):
 
         # Imprime label da carta jogada
         if self._carta_jogada:
-            self._label_carta_jogada = Label(self._janela, image=self._imagens_cartas[str(self._carta_jogada)])
+            self._label_carta_jogada = Label(self._janela, image=self._imagens_cartas[self._carta_jogada.get_nome()])
             self._label_carta_jogada.place(x=470, y=465)
         
         # Cria botoes das cartas do jogador
         for carta in self._cartas_jogador:
-            botao = Button(self._janela , image=self._imagens_cartas[str(carta)], command=lambda jogador=self._player_interface.get_jogador_local(), carta=carta: self._player_interface.jogar_carta(jogador, carta))
-            self._botoes_cartas_jogador[str(carta)] = botao
+            botao = Button(self._janela , image=self._imagens_cartas[carta.get_nome()], command=lambda jogador=self._player_interface.get_jogador_local(), carta=carta: self._player_interface.jogar_carta(jogador, carta))
+            self._botoes_cartas_jogador[carta.get_nome()] = botao
 
         # Estado dos botoes
         if self._jogador.get_turno() and not self._player_interface.get_inicio_de_rodada():
@@ -182,11 +181,11 @@ class PosicaoDireita(Posicao):
         # Cria labels das cartas do jogador
         for carta in self._cartas_jogador:
             label = Label(self._janela, image=self._imagens_cartas["verso de lado"], height=60, width=90)
-            self._botoes_cartas_jogador[str(carta)] = label
+            self._botoes_cartas_jogador[carta.get_nome()] = label
 
         # Imprime label da carta jogada
         if self._carta_jogada:
-            self._label_carta_jogada = Label(self._janela, image=self._imagens_cartas[str(self._carta_jogada)])
+            self._label_carta_jogada = Label(self._janela, image=self._imagens_cartas[self._carta_jogada.get_nome()])
             self._label_carta_jogada.place(x=630, y=325)
     
         # Imprime os labels centralizados
@@ -222,17 +221,17 @@ class PosicaoCima(Posicao):
         # Cria labels das cartas do jogador
         for carta in self._cartas_jogador:
             label = Label(self._janela, image=self._imagens_cartas["verso de lado"], height=60, width=90)
-            self._botoes_cartas_jogador[str(carta)] = label
+            self._botoes_cartas_jogador[carta.get_nome()] = label
 
         # Imprime label da carta jogada
         if self._carta_jogada:
-            self._label_carta_jogada = Label(self._janela, image=self._imagens_cartas[str(self._carta_jogada)])
+            self._label_carta_jogada = Label(self._janela, image=self._imagens_cartas[self._carta_jogada.get_nome()])
             self._label_carta_jogada.place(x=470, y=180)
 
         # Cria labels das cartas do jogador
         for carta in self._cartas_jogador:
             label = Label(self._janela, image=self._imagens_cartas["verso"], height=90, width=60)
-            self._botoes_cartas_jogador[str(carta)] = label
+            self._botoes_cartas_jogador[carta.get_nome()] = label
     
         # Imprime os labels centralizados
         largura_janela = 1020
@@ -266,13 +265,13 @@ class PosicaoEsquerda(Posicao):
 
         # Imprime label da carta jogada
         if self._carta_jogada:
-            self._label_carta_jogada = Label(self._janela, image=self._imagens_cartas[str(self._carta_jogada)])
+            self._label_carta_jogada = Label(self._janela, image=self._imagens_cartas[self._carta_jogada.get_nome()])
             self._label_carta_jogada.place(x=300, y=325)
 
         # Cria labels das cartas do jogador
         for carta in self._cartas_jogador:
             label = Label(self._janela, image=self._imagens_cartas["verso de lado"], height=60, width=90)
-            self._botoes_cartas_jogador[str(carta)] = label
+            self._botoes_cartas_jogador[carta.get_nome()] = label
     
         # Imprime os labels centralizados
         altura_janela = 650

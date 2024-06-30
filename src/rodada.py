@@ -34,7 +34,7 @@ class Rodada:
             strings_cartas = []
             jogador.set_cartas_jogador(self.__baralho.retirar_cartas(self.__numero_da_rodada))
             for carta in jogador.get_cartas_jogador():
-                strings_cartas.append(str(carta))
+                strings_cartas.append(carta.get_nome())
             jogada[jogador.get_nome()] = strings_cartas
         self.__player_interface.enviar_jogada(jogada)
 

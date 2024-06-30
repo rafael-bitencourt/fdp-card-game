@@ -5,9 +5,7 @@ class Baralho:
     def __init__(self):
         self.__cartas = []
         self.criar_baralho()
-    
-    def get_cartas(self):
-        return self.__cartas
+
     
     def criar_baralho(self):
         naipes = ["copas", "espadas", "ouros", "paus"]
@@ -27,3 +25,7 @@ class Baralho:
         for _ in range(quantidade):
             cartas.append(self.__cartas.pop())
         return cartas
+    
+    
+    def get_cartas(self):
+        return self.__cartas
