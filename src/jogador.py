@@ -58,6 +58,6 @@ class Jogador():
         print(f"{self.__nome} jogou a carta {carta}")
         self.__carta_jogada = carta
         for carta in self.__cartas_jogador:
-            if str(carta) == str(self.__carta_jogada):
+            if carta.get_nome() == self.__carta_jogada.get_nome():
                 self.__cartas_jogador.remove(carta)
 

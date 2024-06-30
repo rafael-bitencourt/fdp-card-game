@@ -217,7 +217,7 @@ class PlayerInterface(DogPlayerInterface):
 
             # Configura a jogada caso seja do jogador local
             self.__jogada["tipo"] = "jogar_carta"
-            self.__jogada["carta"] = str(carta)
+            self.__jogada["carta"] = carta.get_nome()
             self.__jogada["jogador"] = jogador.get_nome()
             self.__jogada["match_status"] = "next"
 
@@ -268,7 +268,7 @@ class PlayerInterface(DogPlayerInterface):
 
                     # Identifica a carta jogada
                     for carta in jogador.get_cartas_jogador():
-                        if str(carta) == a_move["carta"]:
+                        if carta.get_nome() == a_move["carta"]:
 
                             # Reutiliza a função jogar carta
                             self.jogar_carta(jogador, carta)

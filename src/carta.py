@@ -18,14 +18,8 @@ class Carta:
         self.__valor = valor
         self.__naipe = naipe
     
-    def __str__(self):
+    def get_nome(self):
         return f"{self.__valor} {self.__naipe}"
-    
-    def get_valor(self):
-        return self.__valor
-
-    def get_naipe(self):
-        return self.__naipe
 
     def get_forca(self):
-        return Carta.forca_cartas[f"{self.__valor} {self.__naipe}"]
+        return Carta.forca_cartas[self.get_nome()]
