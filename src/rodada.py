@@ -32,8 +32,9 @@ class Rodada:
         jogada["match_status"] = "progress"
         for jogador in self.__jogadores:
             strings_cartas = []
-            jogador.set_cartas_jogador(self.__baralho.retirar_cartas(self.__numero_da_rodada))
-            for carta in jogador.get_cartas_jogador():
+            cartas = self.__baralho.retirar_cartas(self.__numero_da_rodada)
+            jogador.set_cartas_jogador(cartas)
+            for carta in cartas:
                 strings_cartas.append(carta.get_nome())
             jogada[jogador.get_nome()] = strings_cartas
         self.__player_interface.enviar_jogada(jogada)

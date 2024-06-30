@@ -22,7 +22,7 @@ class Baralho:
 
     def retirar_cartas(self, quantidade):
         cartas = []
-        for _ in range(quantidade):
+        for i in range(quantidade):
             cartas.append(self.__cartas.pop())
         return cartas
     
