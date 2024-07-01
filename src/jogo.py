@@ -20,8 +20,8 @@ class Jogo:
         self.__rodada.diz_quantas_faz()
 
     # Jogar carta
-    def jogar_carta(self):
-        self.__rodada.jogar_carta()
+    def jogar_carta(self, jogador):
+        self.__rodada.jogar_carta(jogador)
 
         # Verificar fim de jogo
         if self.__rodada.terminou():

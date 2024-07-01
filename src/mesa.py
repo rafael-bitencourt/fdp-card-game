@@ -7,10 +7,12 @@ class Mesa:
         self.__vencedor_da_mesa = None
         self.__cartas_na_mesa = 0
         self.__terminou = False
+        self.__jogadores_em_ordem = []
 
     # Adicionar jogador na mesa
-    def adicionar_jogador_na_mesa(self):
+    def adicionar_jogador_na_mesa(self, jogador):
         self.__cartas_na_mesa += 1
+        self.__jogadores_em_ordem.append(jogador)
 
         # Verificar fim de mesa
         if self.__cartas_na_mesa == 4:
@@ -29,7 +31,7 @@ class Mesa:
 
     # Computar vencedor da mesa
     def computar_vencedor_mesa(self):
-        for jogador in self.__jogadores:
+        for jogador in self.__jogadores_em_ordem:
             jogador.set_turno(False)
             if self.__vencedor_da_mesa == None or jogador.get_carta_jogada().get_forca() >= self.__vencedor_da_mesa.get_carta_jogada().get_forca():
                 self.__vencedor_da_mesa = jogador

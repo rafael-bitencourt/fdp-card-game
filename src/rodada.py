@@ -74,8 +74,8 @@ class Rodada:
 
 
     # Jogar carta
-    def jogar_carta(self):
-        self.__mesa.adicionar_jogador_na_mesa()
+    def jogar_carta(self, jogador):
+        self.__mesa.adicionar_jogador_na_mesa(jogador)
 
         # Verificar fim de rodada
         if self.__mesa.terminou():
