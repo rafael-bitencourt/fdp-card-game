@@ -27,13 +27,13 @@ class Mesa:
 
             # Se nao passa para o proximo da mesa
             self.proximo_da_mesa()
-
+            
     # Computar vencedor da mesa
     def computar_vencedor_mesa(self):
-        for jogador in self.__jogadores_em_ordem:
-            jogador.set_turno(False)
-            if self.__vencedor_da_mesa == None or jogador.get_carta_jogada().get_forca() >= self.__vencedor_da_mesa.get_carta_jogada().get_forca():
-                self.__vencedor_da_mesa = jogador
+        for i in range(len(self.__jogadores_em_ordem)):
+            self.__jogadores_em_ordem[i].set_turno(False)
+            if self.__vencedor_da_mesa == None or self.__jogadores_em_ordem[i].get_carta_jogada().get_forca() >= self.__vencedor_da_mesa.get_carta_jogada().get_forca():
+                self.__vencedor_da_mesa = self.__jogadores_em_ordem[i]
 
         self.__vencedor_da_mesa.set_turno(True)
 
