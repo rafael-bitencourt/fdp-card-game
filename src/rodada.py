@@ -4,7 +4,6 @@ import time
 
 class Rodada:
     def __init__(self, player_interface, jogadores, numero_da_rodada):
-        print(f"-> RODADA {numero_da_rodada} INICIADA")
         # Atributos da rodada
         self.__player_interface = player_interface
         self.__numero_da_rodada = numero_da_rodada
@@ -44,7 +43,6 @@ class Rodada:
     # Diz quantas faz
     def diz_quantas_faz(self):
         self.__quantos_disseram += 1
-        print(f"-> {self.__quantos_disseram} jogadores disseram quantas faz")
         # Bloquear botão diz quantas faz
         if self.__quantos_disseram == 3:
             for jogador in self.__jogadores:

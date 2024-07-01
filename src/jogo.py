@@ -3,7 +3,6 @@ from rodada import Rodada
 
 class Jogo:
     def __init__(self, player_interface, jogadores):
-        print("-> JOGO INICIADO")
         self.__player_interface = player_interface
         self.__jogadores = jogadores
         self.__numero_da_rodada = 1
