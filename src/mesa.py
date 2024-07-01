@@ -1,6 +1,5 @@
 class Mesa:
     def __init__(self, player_interface, jogadores):
-        print("-> NOVA MESA INICIADA")
         # Atributos da mesa
         self.__player_interface = player_interface
         self.__jogadores = jogadores
@@ -36,7 +35,6 @@ class Mesa:
             if self.__vencedor_da_mesa == None or jogador.get_carta_jogada().get_forca() >= self.__vencedor_da_mesa.get_carta_jogada().get_forca():
                 self.__vencedor_da_mesa = jogador
 
-        print(f"Vencedor da mesa: {self.__vencedor_da_mesa.get_nome()}")
         self.__vencedor_da_mesa.set_turno(True)
 
     # Incrementar quantas fez
