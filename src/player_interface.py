@@ -20,7 +20,7 @@ class PlayerInterface(DogPlayerInterface):
         self.__jogadores = []
         self.__jogador_local = None
         self.__dog_server_interface = None
-        self.__inicio_de_rodada = False
+        self.__inicio_de_rodada = True
         self.__botao_bloqueado = None
         self.__placar = []
         self.__jogada = {}
