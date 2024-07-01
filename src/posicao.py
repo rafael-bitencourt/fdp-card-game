@@ -220,18 +220,14 @@ class PosicaoCima(Posicao):
 
         # Cria labels das cartas do jogador
         for carta in self._cartas_jogador:
-            label = Label(self._janela, image=self._imagens_cartas["verso de lado"], height=60, width=90)
+            label = Label(self._janela, image=self._imagens_cartas["verso"], height=90, width=60)
             self._botoes_cartas_jogador[carta.get_nome()] = label
-
+        
         # Imprime label da carta jogada
         if self._carta_jogada:
             self._label_carta_jogada = Label(self._janela, image=self._imagens_cartas[self._carta_jogada.get_nome()])
             self._label_carta_jogada.place(x=470, y=180)
 
-        # Cria labels das cartas do jogador
-        for carta in self._cartas_jogador:
-            label = Label(self._janela, image=self._imagens_cartas["verso"], height=90, width=60)
-            self._botoes_cartas_jogador[carta.get_nome()] = label
     
         # Imprime os labels centralizados
         largura_janela = 1020
@@ -263,15 +259,15 @@ class PosicaoEsquerda(Posicao):
         self._label_quantas_fez = Label(self._janela, text=str(self._quantas_fez), font=("Arial", 20, "bold"), bg="#D9D9D9", fg="#782359")
         self._label_quantas_fez.place(x=140, y=601)
 
-        # Imprime label da carta jogada
-        if self._carta_jogada:
-            self._label_carta_jogada = Label(self._janela, image=self._imagens_cartas[self._carta_jogada.get_nome()])
-            self._label_carta_jogada.place(x=300, y=325)
-
         # Cria labels das cartas do jogador
         for carta in self._cartas_jogador:
             label = Label(self._janela, image=self._imagens_cartas["verso de lado"], height=60, width=90)
             self._botoes_cartas_jogador[carta.get_nome()] = label
+        
+        # Imprime label da carta jogada
+        if self._carta_jogada:
+            self._label_carta_jogada = Label(self._janela, image=self._imagens_cartas[self._carta_jogada.get_nome()])
+            self._label_carta_jogada.place(x=300, y=325)
     
         # Imprime os labels centralizados
         altura_janela = 650
