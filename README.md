@@ -17,7 +17,6 @@
    ``` bash
       source nome_do_ambiente/bin/activate
 
-
 5. Instale as dependências
     ``` bash
         pip3 install requirements.txt
