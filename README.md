@@ -28,7 +28,7 @@
 
 6. Entre no diretório do jogo
    ``` bash
-   cd fdp-card-game
+   cd src
 
 7. Execute o arquivo main
    ``` bash
