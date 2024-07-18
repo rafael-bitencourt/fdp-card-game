@@ -22,6 +22,5 @@
         pip3 install requirements.txt
 
 6 . Execute o arquivo main
-
    ``` bash
        python3 main.py
