@@ -5,22 +5,23 @@
 
 
 ## Como executar
-1. Navegue até o diretório do projeto
-   ``` bash
-    cd .../FDP_04
 
-2. Crie um ambiente virtual e ative-o
+1. Clone o repositório
+   ``` bash
+    git clone https://github.com/rafael-bitencourt/fdp-card-game.git
+   
+2. Navegue até o diretório do projeto
+   ``` bash
+    cd fdp-card-game
+
+3. Crie um ambiente virtual e ative-o
    ``` bash
     python -m venv nome_do_ambiente
 
-3. Instale as dependências
+4. Instale as dependências
     ``` bash
     pip install requirements.txt
 
-4. Entre no diretório "src"
-   ``` bash
-    cd .../FDP_04/src
-
 5. Execute o arquivo main
    ``` bash
-    python main.py
+    python .\src\main.py
